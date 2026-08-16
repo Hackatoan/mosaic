@@ -1,0 +1,22 @@
+services:
+  app:
+    image: ghcr.io/hackatoan/mosaic:latest
+    container_name: mosaic
+    restart: unless-stopped
+    ports:
+      - "3011:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SITE_URL=https://mosaic.hackatoa.com
+      - MOSAIC_MAX_SOURCE_MB=10
+      - MOSAIC_MAX_TILE_MB=5
+      - MOSAIC_MAX_TILES=120
+      - MOSAIC_MIN_TILES=3
+      - MOSAIC_RATE_LIMIT_MAX=12
+      - MOSAIC_RATE_LIMIT_WINDOW_MS=600000
+      # Reads from a .env file placed next to this docker-compose.yml on the
+      # server (not committed to git). Leave unset to just hide the
+      # "auto-fetch by topic" feature — upload-your-own-tiles still works.
+      - PEXELS_API_KEY=${PEXELS_API_KEY:-}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
