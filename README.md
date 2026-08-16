@@ -97,13 +97,13 @@ no deploy agent needed.
 
 - [ ] On the server: `mkdir -p /opt/apps/mosaic && cd /opt/apps/mosaic`
 - [ ] Copy `docker-compose.yml` there (already points at
-      `ghcr.io/hackatoan/mosaic:latest`, port `3011:3000`)
+      `ghcr.io/hackatoan/mosaic:latest`, port `3012:3000`)
 - [ ] (Optional) create a `.env` file in the same directory with
       `PEXELS_API_KEY=your-key` to enable the auto-fetch-by-topic mode — get
       a free key at https://www.pexels.com/api/. Skip this to ship
       upload-only.
 - [ ] `docker compose up -d`
-- [ ] Add an NPMplus proxy host for `mosaic.hackatoa.com` → `localhost:3011`
+- [ ] Add an NPMplus proxy host for `mosaic.hackatoa.com` → `localhost:3012`
 - [ ] Add a `hackatoa.com` DNS record in Pi-hole if not covered by the
       wildcard
 - [ ] Push to main — Watchtower handles all future deploys automatically

@@ -4,7 +4,7 @@ services:
     container_name: mosaic
     restart: unless-stopped
     ports:
-      - "3011:3000"
+      - "3012:3000"
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://mosaic.hackatoa.com
