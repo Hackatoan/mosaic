@@ -89,8 +89,7 @@ export default function TermsPage() {
 
       <h2>Governing law</h2>
       <p>
-        These terms are governed by the laws of the operator's home jurisdiction
-        [placeholder — fill in your state/country before this goes live], without regard to
+        These terms are governed by the laws of the State of California, without regard to
         conflict-of-law principles.
       </p>
 
