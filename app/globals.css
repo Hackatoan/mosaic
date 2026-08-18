@@ -189,7 +189,10 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
+  /* room for hovered thumbnails to pop up above their neighbors, padded back
+     out to the card's own edge so it doesn't shift the visible layout */
+  padding: 1.25rem;
+  margin: 1rem -1.25rem -1.25rem;
 }
 
 .preview-strip img {
@@ -198,15 +201,58 @@ h1 {
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid var(--border);
+  position: relative;
+  cursor: zoom-in;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease,
+    filter 0.25s ease, box-shadow 0.25s ease;
 }
 
-.source-preview {
-  margin-top: 1rem;
-  max-width: 100%;
-  max-height: 260px;
+/* hovering the strip dims every thumbnail slightly... */
+.preview-strip:hover img {
+  opacity: 0.55;
+  filter: saturate(0.7);
+}
+
+/* ...except the one actually under the cursor, which pops up full-size */
+.preview-strip img:hover {
+  transform: scale(3.4);
+  opacity: 1;
+  filter: none;
+  z-index: 5;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.source-preview-wrap,
+.result-image-wrap {
+  overflow: hidden;
   border-radius: 8px;
   border: 1px solid var(--border);
   display: block;
+  cursor: zoom-in;
+}
+
+.source-preview-wrap {
+  margin-top: 1rem;
+  max-width: 100%;
+}
+
+.source-preview {
+  max-width: 100%;
+  max-height: 260px;
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.source-preview-wrap:hover .source-preview {
+  transform: scale(1.15);
+}
+
+.result-image-wrap img {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.result-image-wrap:hover img {
+  transform: scale(1.1);
 }
 
 .mode-toggle {
@@ -331,8 +377,7 @@ button.secondary {
 
 .result img {
   width: 100%;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  display: block;
   image-rendering: pixelated;
 }
 

@@ -145,7 +145,11 @@ export default function MosaicApp() {
           label={sourceFile ? sourceFile.name : "Drop a photo here, or click to choose one"}
           hint={apiInfo ? `Up to ${apiInfo.limits.maxSourceMB}MB.` : ""}
         />
-        {sourcePreview && <img className="source-preview" src={sourcePreview} alt="Source preview" />}
+        {sourcePreview && (
+          <div className="source-preview-wrap">
+            <img className="source-preview" src={sourcePreview} alt="Source preview" />
+          </div>
+        )}
       </section>
 
       <section className="card">
@@ -287,7 +291,9 @@ export default function MosaicApp() {
       {result && (
         <section className="card result" style={{ marginTop: "1.5rem" }}>
           <h2>Result</h2>
-          <img src={result.url} alt="Generated photomosaic" />
+          <div className="result-image-wrap">
+            <img src={result.url} alt="Generated photomosaic" />
+          </div>
           <div className="result-meta">
             <span className="status">
               {result.cols}×{result.rows} tiles at {result.tileSize}px
