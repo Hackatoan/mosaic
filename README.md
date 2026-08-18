@@ -25,9 +25,11 @@ same pattern as the rest of the hackatoa.com fleet.
 4. All matched tile thumbnails are composited onto a blank canvas and
    encoded as PNG.
 
-No database, no object storage — uploads are held in memory only for the
-duration of a single request and discarded once the mosaic is returned. See
-[`/privacy`](app/privacy/page.js) for the full policy.
+No database — uploads are held in memory only for the duration of a single
+request and discarded once the mosaic is returned. The one exception is
+opt-in shareable links (see below), which persist only the finished mosaic
+image to a small disk volume. See [`/privacy`](app/privacy/page.js) for the
+full policy.
 
 ## Public API
 
@@ -35,30 +37,34 @@ duration of a single request and discarded once the mosaic is returned. See
 POST /api/generate
 Content-Type: multipart/form-data
 
-  source     file            required — the source image
-  cols       number          optional, default 40   (5–150)
-  tileSize   number          optional, default 24px  (6–64)
+  source          file            required — the source image
+  cols            number          optional, default 40   (5–150)
+  tileSize        number          optional, default 24px  (6–64)
+  share           boolean         optional, default false — persist the result, return a share URL
 
-  # tile source: use ONE of the two options below
-  tiles      file (repeat)   3–120 tile images you supply
-  topic      string          search topic — auto-fetches tiles from Pexels
-  tileCount  number          optional, default 40 (3–120) — only with 'topic'
+  # tile source: use exactly ONE of the three options below
+  tiles           file (repeat)   3–120 tile images you supply
+  topic           string          search topic — auto-fetches tiles from Pexels
+  tileCount       number          optional, default 40 (3–120) — only with 'topic'
+  driveFolder     string          public Drive folder URL/ID — fetches tiles from it
+  driveTileCount  number          optional, default 40 (3–120) — only with 'driveFolder'
 
 → 200 image/png (the generated mosaic)
   Headers: X-Mosaic-Grid: <cols>x<rows>, X-Mosaic-Tile-Size: <px>,
-           X-Mosaic-Tile-Credit: <URI-encoded credit line> (topic mode only)
+           X-Mosaic-Tile-Credit: <URI-encoded credit line> (topic mode only),
+           X-Mosaic-Share-Url: <url> (only when share=true and it succeeded)
 ```
 
 `GET /api/generate` returns the same spec as JSON (self-documenting,
-including `pexelsAvailable: boolean`). The endpoint is CORS-open
-(`Access-Control-Allow-Origin: *`) and rate-limited per-IP
+including `pexelsAvailable` / `driveAvailable` booleans). The endpoint is
+CORS-open (`Access-Control-Allow-Origin: *`) and rate-limited per-IP
 (`MOSAIC_RATE_LIMIT_MAX` requests / `MOSAIC_RATE_LIMIT_WINDOW_MS`, defaults
 12 / 10 min) plus capped to a few concurrent generations at a time — see
 `lib/config.js` and `.env.example` for every tunable.
 
 ## Tile sources
 
-Two modes, both usable from the UI or the API directly:
+Three modes, all usable from the UI or the API directly:
 
 - **Upload your own** — supply 3–120 tile images per generation. Always
   available, no API key needed.
@@ -66,11 +72,33 @@ Two modes, both usable from the UI or the API directly:
   pulls matching tiles from the [Pexels API](https://www.pexels.com/api/)
   (free tier, permissive license, no attribution required — see
   `lib/pexels.js`). Requires `PEXELS_API_KEY`; if unset, this mode is hidden
-  in the UI and the API returns a clear "not configured" error instead of
-  silently failing.
+  in the UI and the API returns a clear "not configured" error.
+- **From a Google Drive folder** — paste a folder link shared as "Anyone
+  with the link" and Mosaic pulls its images as tiles (see
+  `lib/googleDrive.js`). Uses a plain Google API key, no OAuth/sign-in flow —
+  it literally cannot access a private folder. Requires
+  `GOOGLE_DRIVE_API_KEY`; if unset, this mode is hidden in the UI.
 
 Scraping an image search engine (Google/Bing image results, etc.) instead of
-using a licensed API was deliberately avoided — see `/privacy` for why.
+using a licensed/authorized API was deliberately avoided — see `/privacy`
+for why.
+
+## Shareable links
+
+Opt-in only (`share=true` / the checkbox in the UI). When requested, the
+*finished mosaic PNG only* — never the source photo or tile images/topic/
+folder used to build it — is written to `MOSAIC_RESULTS_DIR`
+(`/data/results` in the container, bind-mounted to `./data/results` on the
+host) under a random UUID, served at `/m/<id>`. Retention is
+**`MOSAIC_SHARE_RETENTION_DAYS` (default 14) days since last viewed** — every
+real view (`app/api/m/[id]/route.js`, `Cache-Control: no-store` so it can't
+be served from a cache instead) bumps the file's mtime, and an hourly sweep
+(`instrumentation.js` → `lib/results.js`'s `cleanupExpiredResults`) deletes
+anything past the window. A new share is silently declined (not an error —
+the mosaic still generates and returns normally, just without a link) if
+free disk space drops below `MOSAIC_MIN_FREE_DISK_MB` (default 500MB), so a
+burst of shares can never fill the host's disk. `/m/<id>` pages are
+`noindex` and disallowed in `robots.txt` — shareable, not searchable.
 
 ## Local development
 
@@ -95,13 +123,18 @@ no deploy agent needed.
 
 ## Deploy checklist (first time only)
 
-- [ ] On the server: `mkdir -p /opt/apps/mosaic && cd /opt/apps/mosaic`
+- [ ] On the server: `mkdir -p /opt/apps/mosaic/data/results && cd /opt/apps/mosaic`
+      (the `data/results` dir backs shareable links — must exist before
+      `docker compose up` for the bind mount to work as a directory, not a
+      file)
 - [ ] Copy `docker-compose.yml` there (already points at
       `ghcr.io/hackatoan/mosaic:latest`, port `3012:3000`)
 - [ ] (Optional) create a `.env` file in the same directory with
-      `PEXELS_API_KEY=your-key` to enable the auto-fetch-by-topic mode — get
-      a free key at https://www.pexels.com/api/. Skip this to ship
-      upload-only.
+      `PEXELS_API_KEY=your-key` and/or `GOOGLE_DRIVE_API_KEY=your-key` to
+      enable those tile-source modes — free keys at
+      https://www.pexels.com/api/ and the Google Cloud Console (enable the
+      Drive API). Skip either/both to ship with fewer tile-source modes;
+      upload-your-own always works.
 - [ ] `docker compose up -d`
 - [ ] Add an NPMplus proxy host for `mosaic.hackatoa.com` → `localhost:3012`
 - [ ] Add a `hackatoa.com` DNS record in Pi-hole if not covered by the

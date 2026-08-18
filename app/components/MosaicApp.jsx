@@ -11,18 +11,22 @@ export default function MosaicApp() {
   const [sourceFile, setSourceFile] = useState(null);
   const [sourcePreview, setSourcePreview] = useState(null);
 
-  const [tileMode, setTileMode] = useState("upload"); // "upload" | "topic"
+  const [tileMode, setTileMode] = useState("upload"); // "upload" | "topic" | "drive"
   const [tileFiles, setTileFiles] = useState([]);
   const [tilePreviews, setTilePreviews] = useState([]);
   const [topic, setTopic] = useState("");
   const [tileCount, setTileCount] = useState(40);
+  const [driveFolder, setDriveFolder] = useState("");
+  const [driveTileCount, setDriveTileCount] = useState(40);
 
   const [cols, setCols] = useState(DEFAULT_COLS);
   const [tileSize, setTileSize] = useState(DEFAULT_TILE_SIZE);
+  const [wantsShare, setWantsShare] = useState(false);
 
   const [dragging, setDragging] = useState(false);
   const [status, setStatus] = useState({ state: "idle", message: "" }); // idle | working | error | done
-  const [result, setResult] = useState(null); // { url, cols, rows, tileSize, credit }
+  const [result, setResult] = useState(null); // { url, cols, rows, tileSize, credit, shareUrl, shareError }
+  const [copied, setCopied] = useState(false);
 
   const sourceInputRef = useRef(null);
   const tilesInputRef = useRef(null);
@@ -34,6 +38,7 @@ export default function MosaicApp() {
         if (!data) return;
         setApiInfo(data);
         setTileCount(extractDefault(data.fields.tileCount) ?? 40);
+        setDriveTileCount(extractDefault(data.fields.driveTileCount) ?? 40);
       })
       .catch(() => {});
   }, []);
@@ -61,6 +66,7 @@ export default function MosaicApp() {
   }, [result]);
 
   const pexelsAvailable = apiInfo?.pexelsAvailable ?? true; // assume yes until we know otherwise
+  const driveAvailable = apiInfo?.driveAvailable ?? true;
   const minTiles = apiInfo?.fields?.tiles ? extractMin(apiInfo.fields.tiles) : 3;
   const maxTiles = apiInfo?.fields?.tiles ? extractMax(apiInfo.fields.tiles) : 120;
 
@@ -76,24 +82,34 @@ export default function MosaicApp() {
 
   const clearTiles = () => setTileFiles([]);
 
-  const tilesReady = tileMode === "upload" ? tileFiles.length >= minTiles : topic.trim().length > 0;
+  const tilesReady =
+    tileMode === "upload"
+      ? tileFiles.length >= minTiles
+      : tileMode === "topic"
+        ? topic.trim().length > 0
+        : driveFolder.trim().length > 0;
   const canGenerate = sourceFile && tilesReady && status.state !== "working";
 
   async function handleGenerate() {
     if (!canGenerate) return;
     setStatus({ state: "working", message: "Matching tiles and compositing…" });
     setResult(null);
+    setCopied(false);
 
     try {
       const form = new FormData();
       form.set("source", sourceFile);
       form.set("cols", String(cols));
       form.set("tileSize", String(tileSize));
+      if (wantsShare) form.set("share", "true");
       if (tileMode === "upload") {
         tileFiles.forEach((f) => form.append("tiles", f));
-      } else {
+      } else if (tileMode === "topic") {
         form.set("topic", topic.trim());
         form.set("tileCount", String(tileCount));
+      } else {
+        form.set("driveFolder", driveFolder.trim());
+        form.set("driveTileCount", String(driveTileCount));
       }
 
       const res = await fetch("/api/generate", { method: "POST", body: form });
@@ -116,21 +132,41 @@ export default function MosaicApp() {
       const [gc, gr] = grid.split("x");
       const rawCredit = res.headers.get("X-Mosaic-Tile-Credit");
       const credit = rawCredit ? decodeURIComponent(rawCredit) : null;
-      setResult({ url, cols: gc, rows: gr, tileSize: res.headers.get("X-Mosaic-Tile-Size"), credit });
+      const shareUrl = res.headers.get("X-Mosaic-Share-Url");
+      const rawShareError = res.headers.get("X-Mosaic-Share-Error");
+      const shareError = rawShareError ? decodeURIComponent(rawShareError) : null;
+      setResult({
+        url,
+        cols: gc,
+        rows: gr,
+        tileSize: res.headers.get("X-Mosaic-Tile-Size"),
+        credit,
+        shareUrl,
+        shareError,
+      });
       setStatus({ state: "done", message: "Done." });
     } catch {
       setStatus({ state: "error", message: "Network error — is the server reachable?" });
     }
   }
 
+  function copyShareUrl() {
+    if (!result?.shareUrl) return;
+    navigator.clipboard?.writeText(result.shareUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
   return (
     <div>
       <h1>Turn a photo into a photomosaic</h1>
       <p className="subtitle">
-        Upload a source photo, then supply tile images — either your own, or auto-fetched from
-        Pexels by topic. Mosaic measures the average color of each region of your photo and
-        rebuilds it out of the closest-matching tile. Nothing you upload is stored; it's processed
-        in memory and discarded once your mosaic comes back.
+        Upload a source photo, then supply tile images — your own, auto-fetched from Pexels by
+        topic, or pulled from a public Google Drive folder. Mosaic measures the average color of
+        each region of your photo and rebuilds it out of the closest-matching tile. Nothing you
+        upload is stored; it's processed in memory and discarded once your mosaic comes back —
+        unless you ask for a shareable link, which saves only the finished mosaic.
       </p>
 
       <section className="card">
@@ -171,9 +207,18 @@ export default function MosaicApp() {
           >
             Auto-fetch by topic
           </button>
+          <button
+            type="button"
+            className={`mode-btn ${tileMode === "drive" ? "active" : ""}`}
+            onClick={() => setTileMode("drive")}
+            disabled={!driveAvailable}
+            title={!driveAvailable ? "Google Drive fetch isn't configured on this server" : undefined}
+          >
+            From Drive folder
+          </button>
         </div>
 
-        {tileMode === "upload" ? (
+        {tileMode === "upload" && (
           <>
             <Dropzone
               active={dragging === "tiles"}
@@ -208,7 +253,9 @@ export default function MosaicApp() {
               </div>
             )}
           </>
-        ) : (
+        )}
+
+        {tileMode === "topic" && (
           <div className="topic-fields">
             <div className="field">
               <label htmlFor="topic-input">
@@ -247,6 +294,43 @@ export default function MosaicApp() {
             </p>
           </div>
         )}
+
+        {tileMode === "drive" && (
+          <div className="topic-fields">
+            <div className="field">
+              <label htmlFor="drive-input">
+                <span>Google Drive folder link</span>
+              </label>
+              <input
+                id="drive-input"
+                type="text"
+                className="text-input"
+                placeholder="https://drive.google.com/drive/folders/…"
+                value={driveFolder}
+                onChange={(e) => setDriveFolder(e.target.value)}
+                maxLength={300}
+              />
+            </div>
+            <div className="field">
+              <label>
+                <span>Tile count</span>
+                <span>{driveTileCount}</span>
+              </label>
+              <input
+                type="range"
+                min={minTiles}
+                max={maxTiles}
+                value={driveTileCount}
+                onChange={(e) => setDriveTileCount(Number(e.target.value))}
+              />
+            </div>
+            <p className="hint">
+              The folder must be shared as <strong>"Anyone with the link"</strong> (Viewer) —
+              Mosaic can't access private folders. Images are read directly from your folder and
+              used only to build this mosaic — see <a href="/privacy">Privacy</a> for details.
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="card">
@@ -279,6 +363,13 @@ export default function MosaicApp() {
             />
           </div>
         </div>
+        <label className="share-toggle">
+          <input type="checkbox" checked={wantsShare} onChange={(e) => setWantsShare(e.target.checked)} />
+          <span>
+            Get a shareable link for this result (saves just the finished mosaic — not your
+            uploads — publicly at a private URL for 14 days after it's last viewed)
+          </span>
+        </label>
       </section>
 
       <div className="actions">
@@ -303,14 +394,24 @@ export default function MosaicApp() {
             </a>
           </div>
           {result.credit && <p className="api-hint">{result.credit}</p>}
+          {result.shareUrl && (
+            <div className="share-box">
+              <input className="text-input" readOnly value={result.shareUrl} onFocus={(e) => e.target.select()} />
+              <button type="button" className="secondary" onClick={copyShareUrl}>
+                {copied ? "Copied!" : "Copy link"}
+              </button>
+            </div>
+          )}
+          {result.shareError && <p className="status error">{result.shareError}</p>}
         </section>
       )}
 
       <p className="api-hint">
         Prefer to call it directly? <code>POST /api/generate</code> as{" "}
-        <code>multipart/form-data</code> with <code>source</code>, plus either <code>tiles</code>{" "}
-        (repeated file field) or <code>topic</code> — see{" "}
-        <a href="/api/generate">GET /api/generate</a> for the full spec.
+        <code>multipart/form-data</code> with <code>source</code>, plus one of <code>tiles</code>{" "}
+        (repeated file field), <code>topic</code>, or <code>driveFolder</code>, and optionally{" "}
+        <code>share=true</code> — see <a href="/api/generate">GET /api/generate</a> for the full
+        spec.
       </p>
     </div>
   );

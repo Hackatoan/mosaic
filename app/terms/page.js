@@ -8,34 +8,39 @@ export default function TermsPage() {
   return (
     <article className="policy">
       <h1>Terms of Service</h1>
-      <p>Last updated: August 16, 2026</p>
+      <p>Last updated: August 18, 2026</p>
 
       <p>
         These terms govern your use of Mosaic, a free tool that generates a photomosaic from a
-        source photo and tile images you upload. By using Mosaic, you agree to these terms.
+        source photo and tile images. By using Mosaic, you agree to these terms.
       </p>
 
       <h2>What Mosaic does</h2>
       <p>
-        You upload a source photo and a set of tile images. Mosaic analyzes the average color of
-        regions of your source photo, matches each region to the closest-colored tile image, and
-        composites the result into a single generated image, which is returned to you. Mosaic also
-        exposes this functionality as a public API endpoint (<code>POST /api/generate</code>).
+        You supply a source photo and a set of tile images — uploaded directly, auto-fetched from
+        Pexels by topic, or pulled from a Google Drive folder you link. Mosaic analyzes the
+        average color of regions of your source photo, matches each region to the closest-colored
+        tile image, and composites the result into a single generated image, which is returned to
+        you. Mosaic also exposes this functionality as a public API endpoint
+        (<code>POST /api/generate</code>), and can optionally generate a public link for a result
+        (see "Shareable links" below).
       </p>
 
       <h2>Your content</h2>
       <ul>
         <li>
-          You must own the rights to, or otherwise have permission to use, every image you upload
-          as a source photo or tile image.
+          You must own the rights to, or otherwise have permission to use and publicly share, every
+          image involved — whether you upload it directly, or point Mosaic at it via a Google
+          Drive folder link. Pointing Mosaic at a Drive folder is treated the same as uploading its
+          contents yourself for the purposes of these terms.
         </li>
         <li>
-          You retain whatever rights you already had in the images you upload. We claim no
-          ownership over your uploads or the mosaic generated from them.
+          You retain whatever rights you already had in the images you supply. We claim no
+          ownership over them or the mosaic generated from them.
         </li>
         <li>
-          Mosaic does not review uploaded content before processing it. You are solely responsible
-          for what you upload and for the resulting generated image.
+          Mosaic does not review content before processing it. You are solely responsible for what
+          you supply and for the resulting generated image.
         </li>
       </ul>
 
@@ -52,6 +57,25 @@ export default function TermsPage() {
         such tiles — is yours to use, but the underlying tile photos remain subject to that
         license. We display a non-mandatory photographer/Pexels credit line alongside results
         generated this way as a courtesy.
+      </p>
+
+      <h2>Tiles from a Google Drive folder</h2>
+      <p>
+        If you use the "from Drive folder" option, you're representing that you have the right to
+        use every image in that folder this way. This only works for folders you've shared as
+        "Anyone with the link" — by using this feature, you're the one choosing to make that
+        folder's contents accessible to Mosaic, and you're responsible for what you put in a
+        folder you point us at.
+      </p>
+
+      <h2>Shareable links</h2>
+      <p>
+        Generating a mosaic never creates a public link unless you explicitly ask for one. If you
+        do, the finished mosaic image is stored on our server and made accessible to anyone who
+        has that link — treat it like sharing an unlisted photo, not a private one. Links expire
+        automatically 14 days after the mosaic was last viewed. Don't request a shareable link for
+        a mosaic built from content you don't have the right to make publicly accessible; the
+        acceptable-use restrictions below apply to shared results the same as everything else.
       </p>
 
       <h2>Acceptable use</h2>

@@ -5,6 +5,10 @@ services:
     restart: unless-stopped
     ports:
       - "3012:3000"
+    volumes:
+      # Only ever holds mosaics someone explicitly requested a shareable
+      # link for (opt-in `share=true`) — never source/tile uploads.
+      - ./data/results:/data/results
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://mosaic.hackatoa.com
@@ -14,9 +18,13 @@ services:
       - MOSAIC_MIN_TILES=3
       - MOSAIC_RATE_LIMIT_MAX=12
       - MOSAIC_RATE_LIMIT_WINDOW_MS=600000
-      # Reads from a .env file placed next to this docker-compose.yml on the
-      # server (not committed to git). Leave unset to just hide the
-      # "auto-fetch by topic" feature — upload-your-own-tiles still works.
+      - MOSAIC_RESULTS_DIR=/data/results
+      - MOSAIC_SHARE_RETENTION_DAYS=14
+      - MOSAIC_MIN_FREE_DISK_MB=500
+      # Both read from a .env file placed next to this docker-compose.yml on
+      # the server (not committed to git). Leave either unset to just hide
+      # that tile-source mode — upload-your-own-tiles always works.
       - PEXELS_API_KEY=${PEXELS_API_KEY:-}
+      - GOOGLE_DRIVE_API_KEY=${GOOGLE_DRIVE_API_KEY:-}
     labels:
       - "com.centurylinklabs.watchtower.enable=true"

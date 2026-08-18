@@ -1,6 +1,8 @@
 import { generateMosaic, MosaicError } from "../../../lib/mosaic.js";
 import { config } from "../../../lib/config.js";
 import { fetchPexelsTiles, isPexelsConfigured, creditHeaderValue, PexelsError } from "../../../lib/pexels.js";
+import { fetchDriveFolderTiles, isDriveConfigured, DriveError } from "../../../lib/googleDrive.js";
+import { saveResult } from "../../../lib/results.js";
 import {
   checkRateLimit,
   tryAcquireJobSlot,
@@ -34,14 +36,20 @@ export async function GET() {
     method: "POST",
     contentType: "multipart/form-data",
     description:
-      "Generates a photomosaic from a source image using either uploaded tile images, or (if configured) tiles auto-fetched from Pexels for a topic.",
+      "Generates a photomosaic from a source image using uploaded tile images, tiles auto-fetched from Pexels by topic, or tiles pulled from a public Google Drive folder.",
     fields: {
       source: "file (required) — the source image to mosaic-ify",
       cols: `number (optional, default 40, ${config.minCols}-${config.maxCols}) — grid columns`,
       tileSize: `number (optional, default 24px, ${config.minTileSize}-${config.maxTileSize}) — pixel size of each tile cell`,
-      tiles: `file[] (repeat the field) — ${config.minTiles}-${config.maxTiles} tile images. Use this OR 'topic', not both.`,
-      topic: `string — search topic for auto-fetched Pexels tiles. Use this OR 'tiles', not both.`,
+      share: "boolean (optional, default false) — persist the result and return a shareable URL (X-Mosaic-Share-Url header)",
+
+      tiles: `file[] (repeat the field) — ${config.minTiles}-${config.maxTiles} tile images. Use exactly one of 'tiles', 'topic', 'driveFolder'.`,
+
+      topic: `string — search topic for auto-fetched Pexels tiles. Use exactly one of 'tiles', 'topic', 'driveFolder'.`,
       tileCount: `number (optional, default ${config.defaultTopicTiles}, ${config.minTiles}-${config.maxTiles}) — how many Pexels tiles to fetch when using 'topic'`,
+
+      driveFolder: `string — a Google Drive folder URL or ID, shared as "Anyone with the link". Use exactly one of 'tiles', 'topic', 'driveFolder'.`,
+      driveTileCount: `number (optional, default ${config.defaultDriveTiles}, ${config.minTiles}-${config.maxTiles}) — how many images to pull when using 'driveFolder'`,
     },
     limits: {
       maxSourceMB: config.maxSourceBytes / 1024 / 1024,
@@ -49,8 +57,9 @@ export async function GET() {
       rateLimit: `${config.rateLimitMax} requests / ${config.rateLimitWindowMs / 60000} min per IP`,
     },
     pexelsAvailable: isPexelsConfigured(),
+    driveAvailable: isDriveConfigured(),
     response:
-      "image/png (the generated mosaic). Header X-Mosaic-Tile-Credit (URI-encoded) is set when tiles came from Pexels.",
+      "image/png (the generated mosaic). X-Mosaic-Tile-Credit (URI-encoded) is set when tiles came from Pexels. X-Mosaic-Share-Url is set when 'share=true' was passed and persisting succeeded.",
   });
 }
 
@@ -90,8 +99,11 @@ export async function POST(request) {
     const tileFiles = form.getAll("tiles").filter((f) => typeof f === "object" && "arrayBuffer" in f);
     const topic = form.get("topic");
     const tileCountRaw = Number(form.get("tileCount"));
+    const driveFolder = form.get("driveFolder");
+    const driveTileCountRaw = Number(form.get("driveTileCount"));
     const cols = Number(form.get("cols")) || undefined;
     const tileSize = Number(form.get("tileSize")) || undefined;
+    const wantsShare = ["true", "1", "on", "yes"].includes(String(form.get("share")).toLowerCase());
 
     if (!sourceFile || typeof sourceFile === "string") {
       return json({ error: "Missing required 'source' file." }, { status: 400 });
@@ -107,13 +119,21 @@ export async function POST(request) {
     }
 
     const usingTopic = typeof topic === "string" && topic.trim().length > 0;
+    const usingDrive = typeof driveFolder === "string" && driveFolder.trim().length > 0;
     const usingUploadedTiles = tileFiles.length > 0;
 
-    if (usingTopic && usingUploadedTiles) {
-      return json({ error: "Provide either 'tiles' files or a 'topic', not both." }, { status: 400 });
+    const sourceCount = [usingTopic, usingDrive, usingUploadedTiles].filter(Boolean).length;
+    if (sourceCount > 1) {
+      return json(
+        { error: "Provide exactly one of 'tiles', 'topic', or 'driveFolder' — not more than one." },
+        { status: 400 }
+      );
     }
-    if (!usingTopic && !usingUploadedTiles) {
-      return json({ error: "Provide either 'tiles' files or a 'topic'." }, { status: 400 });
+    if (sourceCount === 0) {
+      return json(
+        { error: "Provide one of 'tiles', 'topic', or 'driveFolder'." },
+        { status: 400 }
+      );
     }
 
     let tileBuffers;
@@ -144,7 +164,7 @@ export async function POST(request) {
         }
       }
       tileBuffers = await Promise.all(tileFiles.map(async (f) => Buffer.from(await f.arrayBuffer())));
-    } else {
+    } else if (usingTopic) {
       const tileCount = Math.min(
         config.maxTiles,
         Math.max(config.minTiles, Number.isFinite(tileCountRaw) && tileCountRaw > 0 ? tileCountRaw : config.defaultTopicTiles)
@@ -159,6 +179,24 @@ export async function POST(request) {
         }
         console.error("[mosaic] pexels fetch failed:", err);
         return json({ error: "Failed to fetch tile images from Pexels." }, { status: 502 });
+      }
+    } else {
+      const tileCount = Math.min(
+        config.maxTiles,
+        Math.max(
+          config.minTiles,
+          Number.isFinite(driveTileCountRaw) && driveTileCountRaw > 0 ? driveTileCountRaw : config.defaultDriveTiles
+        )
+      );
+      try {
+        const result = await fetchDriveFolderTiles(driveFolder, tileCount);
+        tileBuffers = result.buffers;
+      } catch (err) {
+        if (err instanceof DriveError) {
+          return json({ error: err.message }, { status: err.status || 502 });
+        }
+        console.error("[mosaic] drive fetch failed:", err);
+        return json({ error: "Failed to fetch tile images from Google Drive." }, { status: 502 });
       }
     }
 
@@ -183,6 +221,23 @@ export async function POST(request) {
       ...CORS_HEADERS,
     };
     if (creditHeader) headers["X-Mosaic-Tile-Credit"] = creditHeader;
+
+    if (wantsShare) {
+      try {
+        const id = await saveResult(result.png);
+        if (id) {
+          headers["X-Mosaic-Share-Id"] = id;
+          headers["X-Mosaic-Share-Url"] = `${config.siteUrl}/m/${id}`;
+        } else {
+          headers["X-Mosaic-Share-Error"] = encodeURIComponent(
+            "Server is low on disk space — try again later."
+          );
+        }
+      } catch (err) {
+        console.error("[mosaic] failed to persist share:", err);
+        headers["X-Mosaic-Share-Error"] = encodeURIComponent("Failed to save a shareable copy.");
+      }
+    }
 
     return new Response(result.png, { status: 200, headers });
   } finally {
