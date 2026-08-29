@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "homeTitle": "Mosaic — Transformez n'importe quelle photo en photomosaïque",
+    "homeDescription": "Générateur de photomosaïques gratuit. Téléchargez une photo source et un ensemble d'images de tuiles, et Mosaic reconstruit la photo à partir de centaines de tuiles plus petites assorties par couleur moyenne. Aucune inscription, rien n'est stocké.",
+    "ogDescription": "Générateur de photomosaïques gratuit. Téléchargez une photo et des images de tuiles ; Mosaic la reconstruit à partir de centaines de tuiles assorties par couleur.",
+    "privacyTitle": "Politique de confidentialité",
+    "privacyDescription": "Comment Mosaic traite les images que vous téléchargez.",
+    "termsTitle": "Conditions d'utilisation",
+    "termsDescription": "Conditions d'utilisation de Mosaic, le générateur de photomosaïques."
+  },
+  "nav": {
+    "generate": "Générer",
+    "privacy": "Confidentialité",
+    "terms": "Conditions"
+  },
+  "footer": {
+    "builtBy": "Créé par",
+    "privacy": "Confidentialité",
+    "terms": "Conditions"
+  },
+  "app": {
+    "h1": "Transformez une photo en photomosaïque",
+    "subtitle": "Téléchargez une photo source, puis fournissez des images de tuiles — les vôtres, récupérées automatiquement sur Pexels par thème, ou tirées d'un dossier public Google Drive. Mosaic mesure la couleur moyenne de chaque région de votre photo et la reconstruit à partir de la tuile correspondante la plus proche. Rien de ce que vous téléchargez n'est stocké ; tout est traité en mémoire et supprimé dès que votre mosaïque est générée — sauf si vous demandez un lien de partage, qui enregistre uniquement la mosaïque finale.",
+    "s1Title": "1. Photo source",
+    "sourceDrop": "Déposez une photo ici ou cliquez pour en choisir une",
+    "sourceUpTo": "Jusqu'à {mb} Mo.",
+    "sourcePreviewAlt": "Aperçu de la source",
+    "s2Title": "2. Images de tuiles",
+    "modeUpload": "Télécharger les miennes",
+    "modeTopic": "Récupération auto. par thème",
+    "modeDrive": "Depuis un dossier Drive",
+    "topicDisabledTitle": "La récupération automatique n'est pas configurée sur ce serveur",
+    "driveDisabledTitle": "La récupération Google Drive n'est pas configurée sur ce serveur",
+    "tilesDrop": "Déposez les images de tuiles ici, ou cliquez pour en ajouter d'autres",
+    "tilesHint": "{min} à {max} images, jusqu'à {mb} Mo chacune. Plus de tuiles = meilleures correspondances de couleurs.",
+    "tilesSelected": "{count} images de tuiles sélectionnées",
+    "clear": "effacer",
+    "moreCount": "+{n} de plus",
+    "searchTopic": "Rechercher un sujet",
+    "topicPlaceholder": "ex. feuilles d'automne, panoramas urbains, chats",
+    "tileCount": "Nombre de vignettes",
+    "pexelsHint": "Les photos des vignettes proviennent de <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> pour le sujet recherché et sont utilisées uniquement pour créer cette mosaïque — consultez la politique de <a href=\"/privacy\">Confidentialité</a> pour plus de détails.",
+    "driveFolderLabel": "Lien vers le dossier Google Drive",
+    "drivePlaceholder": "https://drive.google.com/drive/folders/…",
+    "driveHint": "Le dossier doit être partagé avec l'option <strong>« Tous les utilisateur·ices disposant du lien »</strong> (Lecteur) — Mosaic ne peut pas accéder aux dossiers privés. Les images sont lues directement depuis votre dossier et utilisées uniquement pour créer cette mosaïque — consultez la politique de <a href=\"/privacy\">Confidentialité</a> pour plus de détails.",
+    "s3Title": "3. Paramètres de la grille",
+    "columns": "Colonnes",
+    "tileSizeLabel": "Taille des vignettes",
+    "shareToggle": "Obtenir un lien de partage pour ce résultat (enregistre uniquement la mosaïque terminée — pas vos fichiers importés — publiquement sur une URL privée pendant 14 jours après sa dernière consultation)",
+    "generate": "Générer la mosaïque",
+    "generating": "Génération…",
+    "working": "Correspondance des tuiles et composition…",
+    "reqFailed": "Échec de la requête ({status}).",
+    "networkError": "Erreur réseau — le serveur est-il accessible ?",
+    "done": "Terminé.",
+    "resultTitle": "Résultat",
+    "resultAlt": "Photomosaïque générée",
+    "resultMeta": "{cols}×{rows} tuiles à {size}px",
+    "downloadPng": "Télécharger le PNG",
+    "copyLink": "Copier le lien",
+    "copied": "Copié !",
+    "apiHint": "Vous préférez l'appeler directement ? <code>POST /api/generate</code> en tant que <code>multipart/form-data</code> avec <code>source</code>, ainsi qu'un des champs <code>tiles</code> (champ de fichier répété), <code>topic</code> ou <code>driveFolder</code>, et éventuellement <code>share=true</code> — consultez <a href=\"/api/generate\">GET /api/generate</a> pour la spécification complète."
+  },
+  "shared": {
+    "title": "Une photomosaïque partagée",
+    "subtitle": "Créé avec <a href=\"/\">Mosaic</a>. Les liens partagés restent actifs pendant {days} jours après leur dernière consultation.",
+    "imgAlt": "Photomosaïque partagée",
+    "downloadPng": "Télécharger le PNG",
+    "makeYourOwn": "Créer la vôtre"
+  },
+  "privacy": {
+    "blocks": [
+      {
+        "h1": "Politique de confidentialité"
+      },
+      {
+        "p": "Dernière mise à jour : 18 août 2026"
+      },
+      {
+        "p": "Mosaic (« nous », « le service ») est un petit outil auto-hébergé qui transforme une photo en photomosaïque construite à partir d'images de tuiles que vous fournissez. Cette page explique ce qu'il advient des images et des données que vous nous envoyez."
+      },
+      {
+        "h2": "Ce que nous traitons"
+      },
+      {
+        "ul": [
+          "La photo source que vous téléchargez.",
+          "Les images de tuiles, obtenues de trois manières : les fichiers que vous téléchargez vous-même, un sujet de recherche que vous saisissez (« récupération automatique par sujet ») ou un lien vers un dossier Google Drive que vous fournissez.",
+          "Les paramètres de la grille (colonnes, taille des tuiles) que vous choisissez.",
+          "Si vous demandez explicitement un lien de partage : l'image de mosaïque terminée, afin qu'elle puisse être consultée via ce lien."
+        ]
+      },
+      {
+        "h2": "Ce que nous ne faisons pas"
+      },
+      {
+        "ul": [
+          "Nous ne demandons pas de compte et nous ne collectons ni noms, ni e-mails, ni informations de paiement.",
+          "Nous n'utilisons pas d'outils d'analyse ni de traceurs publicitaires sur ce site.",
+          "Nous ne vendons ni n'utilisons vos images à d'autres fins que la génération (et, si vous le demandez, le partage) de la Mosaic que vous avez demandée.",
+          "Nous n'envoyons jamais votre photo source, ni aucune image de vignette que vous téléchargez vous-même, à un tiers."
+        ]
+      },
+      {
+        "h2": "Récupération auto par sujet (Pexels)"
+      },
+      {
+        "p": "Si vous choisissez la « récupération auto par sujet » au lieu de télécharger vos propres vignettes, le sujet de recherche que vous saisissez est envoyé depuis notre serveur à l'<a href=\"https://www.pexels.com/api/\" target=\"_blank\" rel=\"noreferrer\">API Pexels</a> pour trouver des photos correspondantes, qui sont ensuite téléchargées par notre serveur et utilisées comme vignettes de la même manière que les vignettes téléchargées — conservées uniquement pour la durée de votre requête et supprimées une fois la Mosaic renvoyée. Seul le texte du sujet est envoyé à Pexels ; votre photo source et votre emplacement dérivé de votre adresse IP ne sont pas partagés avec Pexels. Les images de vignettes récupérées peuvent être conservées dans un cache en mémoire à courte durée de vie (jusqu'à 10 minutes) afin que des recherches identiques n'aient pas besoin de solliciter à nouveau l'API Pexels ; ce cache n'est jamais écrit sur le disque et s'efface au redémarrage. Le traitement de la requête par Pexels (par exemple, leurs journaux de serveur) est régi par leur <a href=\"https://www.pexels.com/privacy-policy/\" target=\"_blank\" rel=\"noreferrer\">politique de confidentialité</a>, que nous ne contrôlons pas. Ce mode est entièrement optionnel."
+      },
+      {
+        "h2": "Vignettes d'un dossier Google Drive"
+      },
+      {
+        "p": "Si vous choisissez « depuis un dossier Drive », le lien ou l'identifiant du dossier que vous fournissez est envoyé depuis notre serveur à l'API Google Drive pour lister et télécharger les fichiers image qu'il contient — cela ne fonctionne que pour les dossiers partagés avec l'option « Tous les utilisateurs disposant du lien » ; nous n'avons aucun moyen d'accéder à un dossier privé et ne vous demandons jamais de vous connecter avec un compte Google. Les images téléchargées sont utilisées comme vignettes de la même manière que les vignettes téléchargées — conservées uniquement pour la durée de votre requête, ainsi que dans le même cache en mémoire à courte durée de vie décrit ci-dessus pour les requêtes de dossiers identiques. Seul le lien/l'identifiant du dossier est envoyé à Google ; votre photo source ne l'est pas. Le traitement de cette requête par Google est régi par leur <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noreferrer\">politique de confidentialité</a>, que nous ne contrôlons pas. Vous êtes responsable du fait de pointer Mosaic uniquement vers des dossiers que vous avez le droit d'utiliser de cette manière — consultez les <a href=\"/terms\">Conditions d'utilisation</a>."
+      },
+      {
+        "h2": "Liens de partage"
+      },
+      {
+        "p": "La génération d'une Mosaic ne sauvegarde rien par défaut. Si vous cochez explicitement « obtenir un lien de partage », <em>l'image de la Mosaic terminée uniquement</em> — jamais votre photo source, jamais vos images de vignettes ni le sujet ou le dossier utilisé pour les obtenir — est enregistrée sur le disque de notre serveur sous une URL aléatoire et impossible à deviner (<code>/m/&lt;id&gt;</code>). N'importe qui disposant de cette URL exacte peut voir ou télécharger cette image ; elle n'est pas répertoriée, indexée ou découvrable d'une autre manière (les moteurs de recherche sont invités à ne pas l'explorer ni l'indexer). Elle est automatiquement supprimée 14 jours après sa dernière consultation — la consulter à nouveau réinitialise ce compteur de 14 jours, de sorte qu'un lien activement partagé reste actif, mais un lien abandonné finit par expirer. Il nous est impossible d'associer une Mosaic partagée à la personne qui l'a générée après coup."
+      },
+      {
+        "h2": "Combien de temps nous conservons vos images"
+      },
+      {
+        "p": "Votre photo source et vos images de vignettes (téléchargées, récupérées via Pexels ou via Drive) sont conservées dans la mémoire du serveur uniquement pour la durée d'une seule requête de génération et sont supprimées dès que la Mosaic PNG résultante est renvoyée à votre navigateur — elles ne sont écrites ni sur le disque, ni dans une base de données, ni dans un stockage persistant, à l'exception du bref cache de vignettes en mémoire décrit ci-dessus. La <strong>seule</strong> chose que nous écrivons jamais sur le disque est une image de Mosaic terminée, et ce uniquement lorsque vous demandez explicitement un lien de partage pour celle-ci (voir ci-dessus)."
+      },
+      {
+        "h2": "Journaux du serveur"
+      },
+      {
+        "p": "Comme la plupart des services web, notre infrastructure (proxy inverse / hébergement) conserve des journaux d'accès standard et de courte durée (adresse IP, horodatage, chemin demandé, statut de la réponse) à des fins opérationnelles et pour détecter les abus de l'endpoint de l'API publique. Ces journaux ne contiennent pas le contenu de vos images téléchargées. Un limiteur de taux suit le nombre de requêtes effectuées par une adresse IP au cours des dernières minutes ; ce compteur est conservé uniquement en mémoire et se réinitialise à chaque redémarrage du service."
+      },
+      {
+        "h2": "Cookies"
+      },
+      {
+        "p": "Mosaic ne dépose aucun cookie."
+      },
+      {
+        "h2": "Confidentialité des enfants"
+      },
+      {
+        "p": "Mosaic n'est pas destiné aux enfants et nous ne collectons pas sciemment d'informations personnelles auprès d'enfants."
+      },
+      {
+        "h2": "Vos droits"
+      },
+      {
+        "p": "Étant donné que nous ne conservons pas les images téléchargées ni les données de compte (au-delà d'une mosaïque partagée explicitement demandée, comme indiqué ci-dessus), il n'y a généralement rien d'autre stocké à consulter, exporter ou supprimer. Si vous souhaitez qu'une mosaïque partagée soit supprimée avant l'expiration de son délai de 14 jours, ou si vous avez des questions, contactez-nous en utilisant les coordonnées ci-dessous."
+      },
+      {
+        "h2": "Modifications de cette politique"
+      },
+      {
+        "p": "Si cette politique venait à changer — par exemple, si une version future ajoutait une autre source d'image tierce, ou un moyen d'enregistrer une bibliothèque de tuiles entre les visites —, nous mettrions à jour cette page et la date de \"dernière mise à jour\" ci-dessus avant le lancement de cette fonctionnalité."
+      },
+      {
+        "h2": "Contact"
+      },
+      {
+        "p": "Questions about this policy: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  },
+  "terms": {
+    "blocks": [
+      {
+        "h1": "Conditions d'utilisation"
+      },
+      {
+        "p": "Last updated: August 18, 2026"
+      },
+      {
+        "p": "These terms govern your use of Mosaic, a free tool that generates a photomosaic from a source photo and tile images. By using Mosaic, you agree to these terms."
+      },
+      {
+        "h2": "What Mosaic does"
+      },
+      {
+        "p": "You supply a source photo and a set of tile images — uploaded directly, auto-fetched from Pexels by topic, or pulled from a Google Drive folder you link. Mosaic analyzes the average color of regions of your source photo, matches each region to the closest-colored tile image, and composites the result into a single generated image, which is returned to you. Mosaic also exposes this functionality as a public API endpoint (<code>POST /api/generate</code>), and can optionally generate a public link for a result (see \"Shareable links\" below)."
+      },
+      {
+        "h2": "Your content"
+      },
+      {
+        "ul": [
+          "You must own the rights to, or otherwise have permission to use and publicly share, every image involved — whether you upload it directly, or point Mosaic at it via a Google Drive folder link. Pointing Mosaic at a Drive folder is treated the same as uploading its contents yourself for the purposes of these terms.",
+          "You retain whatever rights you already had in the images you supply. We claim no ownership over them or the mosaic generated from them.",
+          "Mosaic n'examine pas le contenu avant de le traiter. Vous êtes seul responsable de ce que vous fournissez et de l'image générée qui en résulte."
+        ]
+      },
+      {
+        "h2": "Tuiles récupérées automatiquement (Pexels)"
+      },
+      {
+        "p": "Si vous utilisez l'option \"récupération automatique par sujet\", les photos de tuiles utilisées dans votre mosaïque proviennent de <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> et vous sont concédées sous licence <a href=\"https://www.pexels.com/license/\" target=\"_blank\" rel=\"noreferrer\">Pexels License</a>. En bref : gratuites à utiliser et à modifier, aucune attribution légalement requise, mais vous ne pouvez pas revendre ou redistribuer une copie non modifiée d'une photo Pexels telle quelle, laisser entendre que des personnes ou des marques figurant sur une photo vous soutiennent sans leur autorisation, ni utiliser le contenu de Pexels d'une manière qui concurrence Pexels. La mosaïque générée — une transformation substantielle combinant un grand nombre de ces tuiles — vous appartient, mais les photos de tuiles sous-jacentes restent soumises à cette licence. Nous affichons une mention de crédit facultative pour le photographe et Pexels à côté des résultats générés de cette manière par courtoisie."
+      },
+      {
+        "h2": "Tuiles provenant d'un dossier Google Drive"
+      },
+      {
+        "p": "Si vous utilisez l'option \"depuis un dossier Drive\", vous certifiez que vous avez le droit d'utiliser de cette manière chaque image de ce dossier. Cela fonctionne uniquement pour les dossiers que vous avez partagés avec l'option \"Tous les utilisateurs ayant le lien\" — en utilisant cette fonctionnalité, c'est vous qui choisissez de rendre le contenu de ce dossier accessible à Mosaic, et vous êtes responsable de ce que vous placez dans un dossier que vous nous indiquez."
+      },
+      {
+        "h2": "Liens de partage"
+      },
+      {
+        "p": "La génération d'une mosaïque ne crée jamais de lien public à moins que vous n'en fassiez expressément la demande. Si c'est le cas, l'image de la mosaïque terminée est stockée sur notre serveur et rendue accessible à quiconque possède ce lien — considérez cela comme le partage d'une photo non répertoriée, et non privée. Les liens expirent automatiquement 14 jours après la dernière consultation de la mosaïque. Ne demandez pas de lien de partage pour une mosaïque créée à partir de contenu que vous n'avez pas le droit de rendre accessible au public ; les restrictions d'utilisation acceptable ci-dessous s'appliquent aux résultats partagés de la même manière qu'à tout le reste."
+      },
+      {
+        "h2": "Utilisation acceptable"
+      },
+      {
+        "p": "Vous acceptez de ne pas utiliser Mosaic pour télécharger, générer ou tenter de générer des images qui :"
+      },
+      {
+        "ul": [
+          "Représentent du matériel pédopornographique ou du contenu sexuel impliquant des mineurs sous quelque forme que ce soit.",
+          "Porter atteinte aux droits d'auteur, de marques ou à d'autres droits de propriété intellectuelle d'autrui.",
+          "Sont utilisés pour harceler, diffamer, menacer ou violer la vie privée d'une autre personne.",
+          "Violent toute loi applicable."
+        ]
+      },
+      {
+        "p": "Vous vous engagez également à ne pas abuser du service ou de son API publique — y compris en tentant de contourner les limites de taux, les limites de téléversement ou d'autres contrôles techniques, ou en utilisant des moyens automatisés pour submerger le service."
+      },
+      {
+        "h2": "Aucune garantie"
+      },
+      {
+        "p": "Mosaic est fourni \"tel quel\" et \"selon la disponibilité\", sans garanties d'aucune sorte, expresses ou implicites. Nous ne garantissons pas que le service sera ininterrompu, exempt d'erreurs ou disponible à un moment particulier — il s'agit d'un petit outil gratuit et auto-hébergé."
+      },
+      {
+        "h2": "Limitation de responsabilité"
+      },
+      {
+        "p": "Dans toute la mesure permise par la loi, Hackatoa n'est pas responsable des dommages indirects, accessoires ou consécutifs découlant de votre utilisation ou de votre impossibilité d'utiliser Mosaic."
+      },
+      {
+        "h2": "Modifications et disponibilité"
+      },
+      {
+        "p": "Nous pouvons modifier, suspendre ou interrompre Mosaic (ou une partie de celui-ci, y compris l'API publique) à tout moment, sans préavis, puisqu'il est offert gratuitement en tant que projet de loisir / homelab."
+      },
+      {
+        "h2": "Loi applicable"
+      },
+      {
+        "p": "Ces conditions sont régies par les lois de l'État de Californie, sans égard aux principes de conflit de lois."
+      },
+      {
+        "h2": "Contact"
+      },
+      {
+        "p": "Questions concernant ces conditions : <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  }
+}

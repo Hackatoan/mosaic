@@ -1,11 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useT } from "../lib/i18n-client.js";
+import { localizeLinks } from "../lib/localize-links.js";
 
 const DEFAULT_COLS = 40;
 const DEFAULT_TILE_SIZE = 24;
 
 export default function MosaicApp() {
+  const { t, locale } = useT();
+  const htmlT = (k) => ({ __html: localizeLinks(t(k), locale) });
   const [apiInfo, setApiInfo] = useState(null);
 
   const [sourceFile, setSourceFile] = useState(null);
@@ -92,7 +96,7 @@ export default function MosaicApp() {
 
   async function handleGenerate() {
     if (!canGenerate) return;
-    setStatus({ state: "working", message: "Matching tiles and compositing…" });
+    setStatus({ state: "working", message: t("app.working") });
     setResult(null);
     setCopied(false);
 
@@ -115,7 +119,7 @@ export default function MosaicApp() {
       const res = await fetch("/api/generate", { method: "POST", body: form });
 
       if (!res.ok) {
-        let message = `Request failed (${res.status}).`;
+        let message = t("app.reqFailed", { status: res.status });
         try {
           const body = await res.json();
           if (body?.error) message = body.error;
@@ -144,9 +148,9 @@ export default function MosaicApp() {
         shareUrl,
         shareError,
       });
-      setStatus({ state: "done", message: "Done." });
+      setStatus({ state: "done", message: t("app.done") });
     } catch {
-      setStatus({ state: "error", message: "Network error — is the server reachable?" });
+      setStatus({ state: "error", message: t("app.networkError") });
     }
   }
 
@@ -160,17 +164,11 @@ export default function MosaicApp() {
 
   return (
     <div>
-      <h1>Turn a photo into a photomosaic</h1>
-      <p className="subtitle">
-        Upload a source photo, then supply tile images — your own, auto-fetched from Pexels by
-        topic, or pulled from a public Google Drive folder. Mosaic measures the average color of
-        each region of your photo and rebuilds it out of the closest-matching tile. Nothing you
-        upload is stored; it's processed in memory and discarded once your mosaic comes back —
-        unless you ask for a shareable link, which saves only the finished mosaic.
-      </p>
+      <h1>{t("app.h1")}</h1>
+      <p className="subtitle">{t("app.subtitle")}</p>
 
       <section className="card">
-        <h2>1. Source photo</h2>
+        <h2>{t("app.s1Title")}</h2>
         <Dropzone
           active={dragging === "source"}
           onDragStateChange={(v) => setDragging(v ? "source" : false)}
@@ -178,43 +176,43 @@ export default function MosaicApp() {
           inputRef={sourceInputRef}
           accept="image/*"
           multiple={false}
-          label={sourceFile ? sourceFile.name : "Drop a photo here, or click to choose one"}
-          hint={apiInfo ? `Up to ${apiInfo.limits.maxSourceMB}MB.` : ""}
+          label={sourceFile ? sourceFile.name : t("app.sourceDrop")}
+          hint={apiInfo ? t("app.sourceUpTo", { mb: apiInfo.limits.maxSourceMB }) : ""}
         />
         {sourcePreview && (
           <div className="source-preview-wrap">
-            <img className="source-preview" src={sourcePreview} alt="Source preview" />
+            <img className="source-preview" src={sourcePreview} alt={t("app.sourcePreviewAlt")} />
           </div>
         )}
       </section>
 
       <section className="card">
-        <h2>2. Tile images</h2>
+        <h2>{t("app.s2Title")}</h2>
         <div className="mode-toggle" role="tablist">
           <button
             type="button"
             className={`mode-btn ${tileMode === "upload" ? "active" : ""}`}
             onClick={() => setTileMode("upload")}
           >
-            Upload my own
+            {t("app.modeUpload")}
           </button>
           <button
             type="button"
             className={`mode-btn ${tileMode === "topic" ? "active" : ""}`}
             onClick={() => setTileMode("topic")}
             disabled={!pexelsAvailable}
-            title={!pexelsAvailable ? "Auto-fetch isn't configured on this server" : undefined}
+            title={!pexelsAvailable ? t("app.topicDisabledTitle") : undefined}
           >
-            Auto-fetch by topic
+            {t("app.modeTopic")}
           </button>
           <button
             type="button"
             className={`mode-btn ${tileMode === "drive" ? "active" : ""}`}
             onClick={() => setTileMode("drive")}
             disabled={!driveAvailable}
-            title={!driveAvailable ? "Google Drive fetch isn't configured on this server" : undefined}
+            title={!driveAvailable ? t("app.driveDisabledTitle") : undefined}
           >
-            From Drive folder
+            {t("app.modeDrive")}
           </button>
         </div>
 
@@ -227,17 +225,17 @@ export default function MosaicApp() {
               inputRef={tilesInputRef}
               accept="image/*"
               multiple
-              label="Drop tile images here, or click to add more"
-              hint={`${minTiles}–${maxTiles} images, up to ${apiInfo?.limits.maxTileMB ?? 5}MB each. More tiles = better color matches.`}
+              label={t("app.tilesDrop")}
+              hint={t("app.tilesHint", { min: minTiles, max: maxTiles, mb: apiInfo?.limits.maxTileMB ?? 5 })}
             />
             <p className={`tile-count ${tileFiles.length >= minTiles ? "ok" : ""}`}>
-              {tileFiles.length} tile image{tileFiles.length === 1 ? "" : "s"} selected
+              {t("app.tilesSelected", { count: tileFiles.length })}
               {tileFiles.length > 0 && (
                 <>
                   {" "}
                   ·{" "}
                   <button type="button" className="link-btn" onClick={clearTiles} style={linkBtnStyle}>
-                    clear
+                    {t("app.clear")}
                   </button>
                 </>
               )}
@@ -248,7 +246,7 @@ export default function MosaicApp() {
                   <img key={i} src={u} alt="" />
                 ))}
                 {tileFiles.length > tilePreviews.length && (
-                  <span className="tile-count">+{tileFiles.length - tilePreviews.length} more</span>
+                  <span className="tile-count">{t("app.moreCount", { n: tileFiles.length - tilePreviews.length })}</span>
                 )}
               </div>
             )}
@@ -259,13 +257,13 @@ export default function MosaicApp() {
           <div className="topic-fields">
             <div className="field">
               <label htmlFor="topic-input">
-                <span>Search topic</span>
+                <span>{t("app.searchTopic")}</span>
               </label>
               <input
                 id="topic-input"
                 type="text"
                 className="text-input"
-                placeholder="e.g. autumn leaves, city skylines, house cats"
+                placeholder={t("app.topicPlaceholder")}
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 maxLength={80}
@@ -273,7 +271,7 @@ export default function MosaicApp() {
             </div>
             <div className="field">
               <label>
-                <span>Tile count</span>
+                <span>{t("app.tileCount")}</span>
                 <span>{tileCount}</span>
               </label>
               <input
@@ -284,14 +282,7 @@ export default function MosaicApp() {
                 onChange={(e) => setTileCount(Number(e.target.value))}
               />
             </div>
-            <p className="hint">
-              Tile photos are pulled from{" "}
-              <a href="https://www.pexels.com" target="_blank" rel="noreferrer">
-                Pexels
-              </a>{" "}
-              for your search topic and used only to build this mosaic — see{" "}
-              <a href="/privacy">Privacy</a> for details.
-            </p>
+            <p className="hint" dangerouslySetInnerHTML={htmlT("app.pexelsHint")} />
           </div>
         )}
 
@@ -299,13 +290,13 @@ export default function MosaicApp() {
           <div className="topic-fields">
             <div className="field">
               <label htmlFor="drive-input">
-                <span>Google Drive folder link</span>
+                <span>{t("app.driveFolderLabel")}</span>
               </label>
               <input
                 id="drive-input"
                 type="text"
                 className="text-input"
-                placeholder="https://drive.google.com/drive/folders/…"
+                placeholder={t("app.drivePlaceholder")}
                 value={driveFolder}
                 onChange={(e) => setDriveFolder(e.target.value)}
                 maxLength={300}
@@ -313,7 +304,7 @@ export default function MosaicApp() {
             </div>
             <div className="field">
               <label>
-                <span>Tile count</span>
+                <span>{t("app.tileCount")}</span>
                 <span>{driveTileCount}</span>
               </label>
               <input
@@ -324,21 +315,17 @@ export default function MosaicApp() {
                 onChange={(e) => setDriveTileCount(Number(e.target.value))}
               />
             </div>
-            <p className="hint">
-              The folder must be shared as <strong>"Anyone with the link"</strong> (Viewer) —
-              Mosaic can't access private folders. Images are read directly from your folder and
-              used only to build this mosaic — see <a href="/privacy">Privacy</a> for details.
-            </p>
+            <p className="hint" dangerouslySetInnerHTML={htmlT("app.driveHint")} />
           </div>
         )}
       </section>
 
       <section className="card">
-        <h2>3. Grid settings</h2>
+        <h2>{t("app.s3Title")}</h2>
         <div className="controls-grid">
           <div className="field">
             <label>
-              <span>Columns</span>
+              <span>{t("app.columns")}</span>
               <span>{cols}</span>
             </label>
             <input
@@ -351,7 +338,7 @@ export default function MosaicApp() {
           </div>
           <div className="field">
             <label>
-              <span>Tile size</span>
+              <span>{t("app.tileSizeLabel")}</span>
               <span>{tileSize}px</span>
             </label>
             <input
@@ -365,32 +352,29 @@ export default function MosaicApp() {
         </div>
         <label className="share-toggle">
           <input type="checkbox" checked={wantsShare} onChange={(e) => setWantsShare(e.target.checked)} />
-          <span>
-            Get a shareable link for this result (saves just the finished mosaic — not your
-            uploads — publicly at a private URL for 14 days after it's last viewed)
-          </span>
+          <span>{t("app.shareToggle")}</span>
         </label>
       </section>
 
       <div className="actions">
         <button className="primary" disabled={!canGenerate} onClick={handleGenerate}>
-          {status.state === "working" ? "Generating…" : "Generate mosaic"}
+          {status.state === "working" ? t("app.generating") : t("app.generate")}
         </button>
         <span className={`status ${status.state === "error" ? "error" : ""}`}>{status.message}</span>
       </div>
 
       {result && (
         <section className="card result" style={{ marginTop: "1.5rem" }}>
-          <h2>Result</h2>
+          <h2>{t("app.resultTitle")}</h2>
           <div className="result-image-wrap">
-            <img src={result.url} alt="Generated photomosaic" />
+            <img src={result.url} alt={t("app.resultAlt")} />
           </div>
           <div className="result-meta">
             <span className="status">
-              {result.cols}×{result.rows} tiles at {result.tileSize}px
+              {t("app.resultMeta", { cols: result.cols, rows: result.rows, size: result.tileSize })}
             </span>
             <a className="secondary" href={result.url} download="mosaic.png">
-              Download PNG
+              {t("app.downloadPng")}
             </a>
           </div>
           {result.credit && <p className="api-hint">{result.credit}</p>}
@@ -398,7 +382,7 @@ export default function MosaicApp() {
             <div className="share-box">
               <input className="text-input" readOnly value={result.shareUrl} onFocus={(e) => e.target.select()} />
               <button type="button" className="secondary" onClick={copyShareUrl}>
-                {copied ? "Copied!" : "Copy link"}
+                {copied ? t("app.copied") : t("app.copyLink")}
               </button>
             </div>
           )}
@@ -406,13 +390,7 @@ export default function MosaicApp() {
         </section>
       )}
 
-      <p className="api-hint">
-        Prefer to call it directly? <code>POST /api/generate</code> as{" "}
-        <code>multipart/form-data</code> with <code>source</code>, plus one of <code>tiles</code>{" "}
-        (repeated file field), <code>topic</code>, or <code>driveFolder</code>, and optionally{" "}
-        <code>share=true</code> — see <a href="/api/generate">GET /api/generate</a> for the full
-        spec.
-      </p>
+      <p className="api-hint" dangerouslySetInnerHTML={{ __html: t("app.apiHint") }} />
     </div>
   );
 }

@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "homeTitle": "Mosaic — Turn any photo into a photomosaic",
+    "homeDescription": "Free photomosaic generator. Upload a source photo and a set of tile images, and Mosaic rebuilds the photo out of hundreds of smaller tiles matched by average color. No signup, nothing stored.",
+    "ogDescription": "Free photomosaic generator. Upload a photo and tile images; Mosaic rebuilds it from hundreds of color-matched tiles.",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "How Mosaic handles the images you upload.",
+    "termsTitle": "Terms of Service",
+    "termsDescription": "Terms for using Mosaic, the photomosaic generator."
+  },
+  "nav": {
+    "generate": "Generate",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "footer": {
+    "builtBy": "Built by",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "app": {
+    "h1": "Turn a photo into a photomosaic",
+    "subtitle": "Upload a source photo, then supply tile images — your own, auto-fetched from Pexels by topic, or pulled from a public Google Drive folder. Mosaic measures the average color of each region of your photo and rebuilds it out of the closest-matching tile. Nothing you upload is stored; it's processed in memory and discarded once your mosaic comes back — unless you ask for a shareable link, which saves only the finished mosaic.",
+    "s1Title": "1. Source photo",
+    "sourceDrop": "Drop a photo here, or click to choose one",
+    "sourceUpTo": "Up to {mb}MB.",
+    "sourcePreviewAlt": "Source preview",
+    "s2Title": "2. Tile images",
+    "modeUpload": "Upload my own",
+    "modeTopic": "Auto-fetch by topic",
+    "modeDrive": "From Drive folder",
+    "topicDisabledTitle": "Auto-fetch isn't configured on this server",
+    "driveDisabledTitle": "Google Drive fetch isn't configured on this server",
+    "tilesDrop": "Drop tile images here, or click to add more",
+    "tilesHint": "{min}–{max} images, up to {mb}MB each. More tiles = better color matches.",
+    "tilesSelected": "{count} tile images selected",
+    "clear": "clear",
+    "moreCount": "+{n} more",
+    "searchTopic": "Search topic",
+    "topicPlaceholder": "e.g. autumn leaves, city skylines, house cats",
+    "tileCount": "Tile count",
+    "pexelsHint": "Tile photos are pulled from <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> for your search topic and used only to build this mosaic — see <a href=\"/privacy\">Privacy</a> for details.",
+    "driveFolderLabel": "Google Drive folder link",
+    "drivePlaceholder": "https://drive.google.com/drive/folders/…",
+    "driveHint": "The folder must be shared as <strong>\"Anyone with the link\"</strong> (Viewer) — Mosaic can't access private folders. Images are read directly from your folder and used only to build this mosaic — see <a href=\"/privacy\">Privacy</a> for details.",
+    "s3Title": "3. Grid settings",
+    "columns": "Columns",
+    "tileSizeLabel": "Tile size",
+    "shareToggle": "Get a shareable link for this result (saves just the finished mosaic — not your uploads — publicly at a private URL for 14 days after it's last viewed)",
+    "generate": "Generate mosaic",
+    "generating": "Generating…",
+    "working": "Matching tiles and compositing…",
+    "reqFailed": "Request failed ({status}).",
+    "networkError": "Network error — is the server reachable?",
+    "done": "Done.",
+    "resultTitle": "Result",
+    "resultAlt": "Generated photomosaic",
+    "resultMeta": "{cols}×{rows} tiles at {size}px",
+    "downloadPng": "Download PNG",
+    "copyLink": "Copy link",
+    "copied": "Copied!",
+    "apiHint": "Prefer to call it directly? <code>POST /api/generate</code> as <code>multipart/form-data</code> with <code>source</code>, plus one of <code>tiles</code> (repeated file field), <code>topic</code>, or <code>driveFolder</code>, and optionally <code>share=true</code> — see <a href=\"/api/generate\">GET /api/generate</a> for the full spec."
+  },
+  "shared": {
+    "title": "A shared photomosaic",
+    "subtitle": "Made with <a href=\"/\">Mosaic</a>. Shared links stick around for {days} days after they were last viewed.",
+    "imgAlt": "Shared photomosaic",
+    "downloadPng": "Download PNG",
+    "makeYourOwn": "Make your own"
+  },
+  "privacy": {
+    "blocks": [
+      { "h1": "Privacy Policy" },
+      { "p": "Last updated: August 18, 2026" },
+      { "p": "Mosaic (\"we\", \"the service\") is a small, self-hosted tool that turns a photo into a photomosaic built from tile images you supply. This page explains what happens to the images and data you send us." },
+      { "h2": "What we process" },
+      { "ul": [
+        "The source photo you upload.",
+        "Tile images, sourced one of three ways: files you upload yourself, a search topic you type in (\"auto-fetch by topic\"), or a Google Drive folder link you provide.",
+        "The grid settings (columns, tile size) you choose.",
+        "If you explicitly request a shareable link: the finished mosaic image, so it can be served at that link."
+      ] },
+      { "h2": "What we don't do" },
+      { "ul": [
+        "We do not require an account, and we do not collect names, emails, or payment details.",
+        "We do not run analytics or advertising trackers on this site.",
+        "We do not sell or use your images for anything other than generating (and, if you ask, sharing) the mosaic you requested.",
+        "We never send your source photo, or any tile images you upload yourself, to any third party."
+      ] },
+      { "h2": "Auto-fetch by topic (Pexels)" },
+      { "p": "If you choose \"auto-fetch by topic\" instead of uploading your own tiles, the search topic you type is sent from our server to the <a href=\"https://www.pexels.com/api/\" target=\"_blank\" rel=\"noreferrer\">Pexels API</a> to find matching photos, which are then downloaded by our server and used as tiles the same way uploaded tiles are — held only for the duration of your request and discarded once the mosaic is returned. Only the topic text is sent to Pexels; your source photo and IP-derived location are not shared with Pexels. Fetched tile images may be kept in a short-lived in-memory cache (up to 10 minutes) so identical searches don't need to hit the Pexels API again; this cache is never written to disk and clears on restart. Pexels' own handling of the request (e.g. their server logs) is governed by their <a href=\"https://www.pexels.com/privacy-policy/\" target=\"_blank\" rel=\"noreferrer\">privacy policy</a>, which we don't control. This mode is entirely optional." },
+      { "h2": "Tiles from a Google Drive folder" },
+      { "p": "If you choose \"from Drive folder,\" the folder link or ID you provide is sent from our server to the Google Drive API to list and download the image files it contains — this only works for folders shared as \"Anyone with the link\"; we have no way to access a private folder, and never ask you to sign in with a Google account. Downloaded images are used as tiles the same way uploaded tiles are — held only for the duration of your request, plus the same short-lived in-memory cache described above for identical folder requests. Only the folder link/ID is sent to Google; your source photo is not. Google's own handling of that request is governed by their <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noreferrer\">privacy policy</a>, which we don't control. You're responsible for only pointing Mosaic at folders you have the right to use this way — see the <a href=\"/terms\">Terms of Service</a>." },
+      { "h2": "Shareable links" },
+      { "p": "Generating a mosaic never saves anything by default. If you explicitly check \"get a shareable link,\" the <em>finished mosaic image only</em> — never your source photo, never your tile images or the topic/folder used to source them — is saved to disk on our server under a random, unguessable URL (<code>/m/&lt;id&gt;</code>). Anyone with that exact URL can view or download that image; it is not otherwise listed, indexed, or discoverable (search engines are asked not to crawl or index it). It's automatically deleted 14 days after it was last viewed — viewing it again resets that 14-day clock, so an actively-shared link stays alive, but an abandoned one eventually expires. There's no way for us to associate a shared mosaic with who generated it after the fact." },
+      { "h2": "How long we keep your images" },
+      { "p": "Your source photo and tile images (uploaded, Pexels-fetched, or Drive-fetched) are held in server memory only for the duration of a single generation request and discarded once the resulting mosaic PNG is sent back to your browser — not written to disk, a database, or any persistent storage — except for the brief in-memory tile cache described above. The <strong>only</strong> thing we ever write to disk is a finished mosaic image, and only when you explicitly request a shareable link for it (see above)." },
+      { "h2": "Server logs" },
+      { "p": "Like most web services, our infrastructure (reverse proxy / hosting) keeps standard, short-lived access logs (IP address, timestamp, requested path, response status) for operational purposes and to detect abuse of the public API endpoint. These logs do not contain the contents of your uploaded images. A rate limiter tracks how many requests an IP address has made in the last few minutes; that counter is kept in memory only and resets whenever the service restarts." },
+      { "h2": "Cookies" },
+      { "p": "Mosaic does not set any cookies." },
+      { "h2": "Children's privacy" },
+      { "p": "Mosaic is not directed at children and we do not knowingly collect personal information from children." },
+      { "h2": "Your rights" },
+      { "p": "Because we don't retain uploaded images or account data (beyond an explicitly-requested shareable mosaic, per above), there is generally nothing else stored to access, export, or delete. If you'd like a shared mosaic removed before its 14-day window lapses, or have questions, contact us using the details below." },
+      { "h2": "Changes to this policy" },
+      { "p": "If this policy changes — for example, if a future version adds another third-party image source, or a way to save a tile library between visits — we'll update this page and the \"last updated\" date above before that feature goes live." },
+      { "h2": "Contact" },
+      { "p": "Questions about this policy: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>." }
+    ]
+  },
+  "terms": {
+    "blocks": [
+      { "h1": "Terms of Service" },
+      { "p": "Last updated: August 18, 2026" },
+      { "p": "These terms govern your use of Mosaic, a free tool that generates a photomosaic from a source photo and tile images. By using Mosaic, you agree to these terms." },
+      { "h2": "What Mosaic does" },
+      { "p": "You supply a source photo and a set of tile images — uploaded directly, auto-fetched from Pexels by topic, or pulled from a Google Drive folder you link. Mosaic analyzes the average color of regions of your source photo, matches each region to the closest-colored tile image, and composites the result into a single generated image, which is returned to you. Mosaic also exposes this functionality as a public API endpoint (<code>POST /api/generate</code>), and can optionally generate a public link for a result (see \"Shareable links\" below)." },
+      { "h2": "Your content" },
+      { "ul": [
+        "You must own the rights to, or otherwise have permission to use and publicly share, every image involved — whether you upload it directly, or point Mosaic at it via a Google Drive folder link. Pointing Mosaic at a Drive folder is treated the same as uploading its contents yourself for the purposes of these terms.",
+        "You retain whatever rights you already had in the images you supply. We claim no ownership over them or the mosaic generated from them.",
+        "Mosaic does not review content before processing it. You are solely responsible for what you supply and for the resulting generated image."
+      ] },
+      { "h2": "Auto-fetched tiles (Pexels)" },
+      { "p": "If you use the \"auto-fetch by topic\" option, the tile photos used in your mosaic are sourced from <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> and are licensed to you under the <a href=\"https://www.pexels.com/license/\" target=\"_blank\" rel=\"noreferrer\">Pexels License</a>. In short: free to use and modify, no attribution legally required, but you may not resell or redistribute an unaltered copy of a Pexels photo on its own, imply that people or brands shown in a photo endorse you without their permission, or use Pexels content in a way that competes with Pexels. The generated mosaic — a substantial transformation combining many such tiles — is yours to use, but the underlying tile photos remain subject to that license. We display a non-mandatory photographer/Pexels credit line alongside results generated this way as a courtesy." },
+      { "h2": "Tiles from a Google Drive folder" },
+      { "p": "If you use the \"from Drive folder\" option, you're representing that you have the right to use every image in that folder this way. This only works for folders you've shared as \"Anyone with the link\" — by using this feature, you're the one choosing to make that folder's contents accessible to Mosaic, and you're responsible for what you put in a folder you point us at." },
+      { "h2": "Shareable links" },
+      { "p": "Generating a mosaic never creates a public link unless you explicitly ask for one. If you do, the finished mosaic image is stored on our server and made accessible to anyone who has that link — treat it like sharing an unlisted photo, not a private one. Links expire automatically 14 days after the mosaic was last viewed. Don't request a shareable link for a mosaic built from content you don't have the right to make publicly accessible; the acceptable-use restrictions below apply to shared results the same as everything else." },
+      { "h2": "Acceptable use" },
+      { "p": "You agree not to use Mosaic to upload, generate, or attempt to generate images that:" },
+      { "ul": [
+        "Depict child sexual abuse material, or sexual content involving minors in any form.",
+        "Infringe someone else's copyright, trademark, or other intellectual property rights.",
+        "Are used to harass, defame, threaten, or violate the privacy of another person.",
+        "Violate any applicable law."
+      ] },
+      { "p": "You also agree not to abuse the service or its public API — including attempting to bypass rate limits, upload limits, or other technical controls, or using automated means to overwhelm the service." },
+      { "h2": "No warranty" },
+      { "p": "Mosaic is provided \"as is\" and \"as available,\" without warranties of any kind, express or implied. We do not guarantee the service will be uninterrupted, error-free, or available at any particular time — this is a small, self-hosted, free tool." },
+      { "h2": "Limitation of liability" },
+      { "p": "To the maximum extent permitted by law, Hackatoa is not liable for any indirect, incidental, or consequential damages arising from your use of, or inability to use, Mosaic." },
+      { "h2": "Changes and availability" },
+      { "p": "We may change, suspend, or discontinue Mosaic (or any part of it, including the public API) at any time, without notice, since it is offered free of charge as a hobby/homelab project." },
+      { "h2": "Governing law" },
+      { "p": "These terms are governed by the laws of the State of California, without regard to conflict-of-law principles." },
+      { "h2": "Contact" },
+      { "p": "Questions about these terms: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>." }
+    ]
+  }
+}

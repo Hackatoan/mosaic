@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "homeTitle": "Mosaic — Convierte cualquier foto en un fotomosaico",
+    "homeDescription": "Generador de fotomosaicos gratuito. Sube una foto de origen y un conjunto de imágenes de mosaico, y Mosaic reconstruye la foto a partir de cientos de mosaicos más pequeños combinados por color medio. Sin registros, sin almacenar nada.",
+    "ogDescription": "Generador de fotomosaicos gratuito. Sube una foto y las imágenes de los mosaicos; Mosaic la reconstruye a partir de cientos de mosaicos con los colores coincidentes.",
+    "privacyTitle": "Política de Privacidad",
+    "privacyDescription": "Cómo maneja Mosaic las imágenes que subes.",
+    "termsTitle": "Términos de Servicio",
+    "termsDescription": "Términos para el uso de Mosaic, el generador de fotomosaicos."
+  },
+  "nav": {
+    "generate": "Generar",
+    "privacy": "Privacidad",
+    "terms": "Términos"
+  },
+  "footer": {
+    "builtBy": "Creado por",
+    "privacy": "Privacidad",
+    "terms": "Términos"
+  },
+  "app": {
+    "h1": "Convierte una foto en un fotomosaico",
+    "subtitle": "Sube una foto de origen y proporciona imágenes de mosaico: las tuyas, obtenidas automáticamente de Pexels por tema o extraídas de una carpeta pública de Google Drive. Mosaic mide el color promedio de cada región de tu foto y la reconstruye con la ficha que mejor coincida. Nada de lo que subes se almacena; se procesa en la memoria y se descarta una vez que tu mosaico regresa, a menos que solicites un enlace para compartir, que guarda únicamente el mosaico terminado.",
+    "s1Title": "1. Foto de origen",
+    "sourceDrop": "Suelta una foto aquí o haz clic para elegir una",
+    "sourceUpTo": "Hasta {mb}MB.",
+    "sourcePreviewAlt": "Vista previa de origen",
+    "s2Title": "2. Imágenes de mosaico",
+    "modeUpload": "Subir las mías",
+    "modeTopic": "Buscar automáticamente por tema",
+    "modeDrive": "Desde carpeta de Drive",
+    "topicDisabledTitle": "La búsqueda automática no está configurada en este servidor",
+    "driveDisabledTitle": "La búsqueda en Google Drive no está configurada en este servidor",
+    "tilesDrop": "Suelta las imágenes de mosaico aquí o haz clic para añadir más",
+    "tilesHint": "{min}–{max} imágenes, hasta {mb}MB cada una. Más mosaicos = mejor coincidencia de color.",
+    "tilesSelected": "{count} imágenes de mosaico seleccionadas",
+    "clear": "borrar",
+    "moreCount": "+{n} más",
+    "searchTopic": "Buscar tema",
+    "topicPlaceholder": "p. ej. hojas de otoño, horizontes urbanos, gatos domésticos",
+    "tileCount": "Número de mosaicos",
+    "pexelsHint": "Las fotos de los mosaicos se obtienen de <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> para tu tema de búsqueda y se usan únicamente para crear este mosaico; consulta la <a href=\"/privacy\">Política de privacidad</a> para obtener más detalles.",
+    "driveFolderLabel": "Enlace de la carpeta de Google Drive",
+    "drivePlaceholder": "https://drive.google.com/drive/folders/…",
+    "driveHint": "La carpeta debe compartirse como <strong>\"Cualquier usuario con el enlace\"</strong> (Lector). Mosaic no puede acceder a carpetas privadas. Las imágenes se leen directamente de tu carpeta y se usan únicamente para crear este mosaico; consulta la <a href=\"/privacy\">Política de privacidad</a> para obtener más detalles.",
+    "s3Title": "3. Configuración de la cuadrícula",
+    "columns": "Columnas",
+    "tileSizeLabel": "Tamaño del mosaico",
+    "shareToggle": "Obtén un enlace para compartir este resultado (guarda solo el mosaico terminado —no tus subidas— públicamente en una URL privada durante 14 días después de su última visualización)",
+    "generate": "Generar mosaico",
+    "generating": "Generando…",
+    "working": "Coincidiendo teselas y componiendo…",
+    "reqFailed": "La solicitud falló ({status}).",
+    "networkError": "Error de red: ¿es accesible el servidor?",
+    "done": "Listo.",
+    "resultTitle": "Resultado",
+    "resultAlt": "Fotomosaico generado",
+    "resultMeta": "{cols}×{rows} teselas de {size}px",
+    "downloadPng": "Descargar PNG",
+    "copyLink": "Copiar enlace",
+    "copied": "¡Copiado!",
+    "apiHint": "¿Prefieres llamarla directamente? <code>POST /api/generate</code> como <code>multipart/form-data</code> con <code>source</code>, más uno de <code>tiles</code> (campo de archivo repetido), <code>topic</code> o <code>driveFolder</code>, y opcionalmente <code>share=true</code> — consulta <a href=\"/api/generate\">GET /api/generate</a> para ver la especificación completa."
+  },
+  "shared": {
+    "title": "Un fotomosaico compartido",
+    "subtitle": "Hecho con <a href=\"/\">Mosaic</a>. Los enlaces compartidos duran {days} días después de su última visualización.",
+    "imgAlt": "Fotomosaico compartido",
+    "downloadPng": "Descargar PNG",
+    "makeYourOwn": "Crea el tuyo propio"
+  },
+  "privacy": {
+    "blocks": [
+      {
+        "h1": "Política de Privacidad"
+      },
+      {
+        "p": "Última actualización: 18 de agosto de 2026"
+      },
+      {
+        "p": "Mosaic (\"nosotros\", \"el servicio\") es una pequeña herramienta autohospedada que convierte una foto en un fotomosaico creado a partir de las imágenes de baldosas que tú proporcionas. Esta página explica qué sucede con las imágenes y los datos que nos envías."
+      },
+      {
+        "h2": "Qué procesamos"
+      },
+      {
+        "ul": [
+          "La foto de origen que subes.",
+          "Imágenes de baldosas, obtenidas de una de estas tres formas: archivos que subes tú mismo, un tema de búsqueda que escribes (\"auto-fetch by topic\") o un enlace a una carpeta de Google Drive que proporcionas.",
+          "La configuración de la cuadrícula (columnas, tamaño de baldosa) que eliges.",
+          "Si solicitas explícitamente un enlace para compartir: la imagen del mosaico terminado, para que pueda mostrarse en ese enlace."
+        ]
+      },
+      {
+        "h2": "Lo que no hacemos"
+      },
+      {
+        "ul": [
+          "No requerimos una cuenta y no recopilamos nombres, correos electrónicos ni datos de pago.",
+          "No ejecutamos análisis ni rastreadores publicitarios en este sitio.",
+          "No vendemos ni utilizamos tus imágenes para nada que no sea generar (y, si lo solicitas, compartir) el Mosaic que has solicitado.",
+          "Nunca enviamos tu foto de origen, ni ninguna imagen de tesela que subas tú mismo, a ningún tercero."
+        ]
+      },
+      {
+        "h2": "Búsqueda automática por tema (Pexels)"
+      },
+      {
+        "p": "Si eliges \"búsqueda automática por tema\" en lugar de subir tus propias teselas, el tema de búsqueda que escribes se envía desde nuestro servidor a la <a href=\"https://www.pexels.com/api/\" target=\"_blank\" rel=\"noreferrer\">Pexels API</a> para encontrar fotos coincidentes, las cuales son descargadas por nuestro servidor y utilizadas como teselas de la misma manera que las teselas subidas: se retienen únicamente durante la duración de tu solicitud y se descartan una vez que se devuelve el Mosaic. Solo se envía el texto del tema a Pexels; tu foto de origen y la ubicación derivada de la IP no se comparten con Pexels. Las imágenes de teselas obtenidas pueden conservarse en una caché en memoria de corta duración (hasta 10 minutos) para que las búsquedas idénticas no necesiten consultar la Pexels API de nuevo; esta caché nunca se escribe en disco y se borra al reiniciar. El manejo que Pexels hace de la solicitud (por ejemplo, los registros de sus servidores) se rige por su <a href=\"https://www.pexels.com/privacy-policy/\" target=\"_blank\" rel=\"noreferrer\">política de privacidad</a>, la cual no controlamos. Este modo es completamente opcional."
+      },
+      {
+        "h2": "Teselas de una carpeta de Google Drive"
+      },
+      {
+        "p": "Si eliges \"desde una carpeta de Drive\", el enlace de la carpeta o el id que proporcionas se envía desde nuestro servidor a la Google Drive API para listar y descargar los archivos de imagen que contiene; esto solo funciona para carpetas compartidas como \"Cualquier persona con el enlace\"; no tenemos forma de acceder a una carpeta privada y nunca te pedimos que inicies sesión con una cuenta de Google. Las imágenes descargadas se utilizan como teselas de la misma manera que las teselas subidas: se retienen únicamente durante la duración de tu solicitud, además de la misma caché en memoria de corta duración descrita anteriormente para solicitudes de carpetas idénticas. Solo el enlace o id de la carpeta se envía a Google; tu foto de origen no. El manejo que Google hace de dicha solicitud se rige por su <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noreferrer\">política de privacidad</a>, la cual no controlamos. Eres responsable de apuntar Mosaic únicamente a carpetas que tengas derecho a usar de esta manera; consulta las <a href=\"/terms\">Condiciones del servicio</a>."
+      },
+      {
+        "h2": "Enlaces para compartir"
+      },
+      {
+        "p": "Generar un Mosaic nunca guarda nada por defecto. Si marcas explícitamente \"obtener un enlace para compartir\", <em>únicamente la imagen del Mosaic finalizada</em> —nunca tu foto de origen, nunca las imágenes de tus teselas ni el tema o la carpeta utilizados para obtenerlas— se guarda en el disco de nuestro servidor bajo una URL aleatoria e im adivinable (<code>/m/&lt;id&gt;</code>). Cualquier persona con esa URL exacta puede ver o descargar esa imagen; por lo demás, no se lista, indexa ni es descubrible (se solicita a los motores de búsqueda que no la rastreen ni indexen). Se elimina automáticamente 14 días después de haber sido vista por última vez; volver a verla reinicia ese contador de 14 días, por lo que un enlace compartido activamente se mantiene activo, pero uno abandonado finalmente caduca. No tenemos forma de asociar un Mosaic compartido con quién lo generó a posteriori."
+      },
+      {
+        "h2": "Cuánto tiempo conservamos tus imágenes"
+      },
+      {
+        "p": "Tu foto de origen y las imágenes de las teselas (subidas, obtenidas de Pexels u obtenidas de Drive) se retienen en la memoria del servidor únicamente durante la duración de una sola solicitud de generación y se descartan una vez que el PNG del Mosaic resultante se envía de vuelta a tu navegador —no se escriben en disco, en una base de datos ni en ningún almacenamiento persistente—, a excepción de la breve caché de teselas en memoria descrita anteriormente. Lo <strong>único</strong> que escribimos jamás en disco es una imagen de Mosaic finalizada, y solo cuando solicitas explícitamente un enlace para compartir para la misma (ver arriba)."
+      },
+      {
+        "h2": "Registros del servidor"
+      },
+      {
+        "p": "Al igual que la mayoría de los servicios web, nuestra infraestructura (proxy inverso / alojamiento) mantiene registros de acceso estándar y de corta duración (dirección IP, marca de tiempo, ruta solicitada, estado de la respuesta) con fines operativos y para detectar abusos en el punto final de la API pública. Estos registros no contienen el contenido de sus imágenes subidas. Un limitador de velocidad rastrea cuántas solicitudes ha realizado una dirección IP en los últimos minutos; dicho contador se mantiene únicamente en la memoria y se reinicia cada vez que se reinicia el servicio."
+      },
+      {
+        "h2": "Cookies"
+      },
+      {
+        "p": "Mosaic no establece ninguna cookie."
+      },
+      {
+        "h2": "Privacidad de los niños"
+      },
+      {
+        "p": "Mosaic no está dirigido a menores y no recopilamos conscientemente información personal de niños."
+      },
+      {
+        "h2": "Sus derechos"
+      },
+      {
+        "p": "Dado que no retenemos las imágenes subidas ni los datos de cuenta (más allá de un mosaico compartible solicitado explícitamente, según lo anterior), por lo general no hay nada más almacenado que acceder, exportar o eliminar. Si desea que se elimine un mosaico compartido antes de que transcurra el plazo de 14 días o tiene preguntas, comuníquese con nosotros utilizando los datos a continuación."
+      },
+      {
+        "h2": "Cambios en esta política"
+      },
+      {
+        "p": "Si esta política cambia —por ejemplo, si una versión futura añade otra fuente de imagen de terceros o una manera de guardar una biblioteca de teselas entre visitas—, actualizaremos esta página y la fecha de \"última actualización\" indicada arriba antes de que dicha función entre en vigor."
+      },
+      {
+        "h2": "Contacto"
+      },
+      {
+        "p": "Preguntas sobre esta política: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  },
+  "terms": {
+    "blocks": [
+      {
+        "h1": "Términos de servicio"
+      },
+      {
+        "p": "Última actualización: 18 de agosto de 2026"
+      },
+      {
+        "p": "Estos términos rigen tu uso de Mosaic, una herramienta gratuita que genera un fotomosaico a partir de una foto de origen y de imágenes de azulejos. Al utilizar Mosaic, aceptas estos términos."
+      },
+      {
+        "h2": "Qué hace Mosaic"
+      },
+      {
+        "p": "Proporcionas una foto de origen y un conjunto de imágenes de azulejos (ya sea subidas directamente, obtenidas automáticamente de Pexels por tema o extraídas de una carpeta de Google Drive que enlaces). Mosaic analiza el color promedio de las regiones de tu foto de origen, combina cada región con la imagen de azulejo de color más cercano y compone el resultado en una única imagen generada, la cual se te devuelve. Mosaic también expone esta funcionalidad como un punto de conexión de API público (<code>POST /api/generate</code>) y puede generar opcionalmente un enlace público para un resultado (consulta \"Enlaces compartibles\" a continuación)."
+      },
+      {
+        "h2": "Tu contenido"
+      },
+      {
+        "ul": [
+          "Debes poseer los derechos de cada imagen involucrada, o contar con el permiso para usarlas y compartirlas públicamente (ya sea que las subas directamente o apuntes a ellas mediante un enlace a una carpeta de Google Drive). Apuntar Mosaic a una carpeta de Drive se trata de la misma manera que subir su contenido tú mismo a los efectos de estos términos.",
+          "Conservas los derechos que ya tuvieras sobre las imágenes que proporcionas. No reclamamos ninguna propiedad sobre ellas ni sobre el mosaico generado a partir de las mismas.",
+          "Mosaic no revisa el contenido antes de procesarlo. Eres el único responsable de lo que proporciones y de la imagen generada resultante."
+        ]
+      },
+      {
+        "h2": "Mosaicos obtenidos automáticamente (Pexels)"
+      },
+      {
+        "p": "Si usas la opción \"obtener automáticamente por tema\", las fotos de los mosaicos utilizadas se obtienen de <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> y se te conceden bajo la <a href=\"https://www.pexels.com/license/\" target=\"_blank\" rel=\"noreferrer\">Licencia de Pexels</a>. En resumen: son de uso y modificación gratuitos, no se requiere atribución por ley, pero no puedes revender ni redistribuir una copia sin alterar de una foto de Pexels por sí sola, insinuar que las personas o marcas que aparecen en una foto te respaldan sin su permiso, ni utilizar contenido de Pexels de una manera que compita con Pexels. El mosaico generado —una transformación sustancial que combina muchos de dichos mosaicos— es tuyo para usarlo, pero las fotos de los mosaicos subyacentes siguen estando sujetas a dicha licencia. Mostramos una línea de crédito opcional al fotógrafo o a Pexels junto con los resultados generados de esta manera como cortesía."
+      },
+      {
+        "h2": "Mosaicos de una carpeta de Google Drive"
+      },
+      {
+        "p": "Si usas la opción \"desde carpeta de Drive\", declaras que tienes derecho a usar cada imagen de esa carpeta de esta manera. Esto solo funciona para carpetas que has compartido como \"Cualquier persona que tenga el enlace\"; al usar esta función, eres tú quien decide hacer que el contenido de esa carpeta sea accesible para Mosaic, y eres responsable de lo que pongas en una carpeta a la que nos apuntes."
+      },
+      {
+        "h2": "Enlaces compartibles"
+      },
+      {
+        "p": "Generar un mosaico nunca crea un enlace público a menos que lo solicites explícitamente. Si lo haces, la imagen del mosaico terminado se almacena en nuestro servidor y se hace accesible para cualquier persona que tenga ese enlace; trátalo como compartir una foto no listada, no privada. Los enlaces caducan automáticamente 14 días después de que el mosaico se viera por última vez. No solicites un enlace compartible para un mosaico creado a partir de contenido que no tienes derecho a hacer públicamente accesible; las restricciones de uso aceptable a continuación se aplican a los resultados compartidos al igual que a todo lo demás."
+      },
+      {
+        "h2": "Uso aceptable"
+      },
+      {
+        "p": "Aceptas no utilizar Mosaic para cargar, generar o intentar generar imágenes que:"
+      },
+      {
+        "ul": [
+          "Representen material de abuso sexual infantil o contenido sexual que involucre a menores de cualquier forma.",
+          "Infringir los derechos de autor, marca registrada u otros derechos de propiedad intelectual de terceros.",
+          "Se utilicen para acosar, difamar, amenazar o violar la privacidad de otra persona.",
+          "Violen cualquier ley aplicable."
+        ]
+      },
+      {
+        "p": "También aceptas no hacer un uso indebido del servicio ni de su API pública, lo que incluye intentar eludir los límites de velocidad, límites de carga u otros controles técnicos, o utilizar medios automatizados para saturar el servicio."
+      },
+      {
+        "h2": "Sin garantía"
+      },
+      {
+        "p": "Mosaic se proporciona \"tal cual\" y \"según disponibilidad\", sin garantías de ningún tipo, ya sean expresas o implícitas. No garantizamos que el servicio sea ininterrumpido, esté libre de errores o se encuentre disponible en un momento determinado; esta es una herramienta gratuita pequeña, autohospedada."
+      },
+      {
+        "h2": "Limitación de responsabilidad"
+      },
+      {
+        "p": "En la máxima medida permitida por la ley, Hackatoa no será responsable de ningún daño indirecto, incidental o consecuente que surja de tu uso o incapacidad para usar Mosaic."
+      },
+      {
+        "h2": "Cambios y disponibilidad"
+      },
+      {
+        "p": "Podemos cambiar, suspender o discontinuar Mosaic (o cualquier parte del mismo, incluida la API pública) en cualquier momento y sin previo aviso, ya que se ofrece de forma gratuita como un proyecto de pasatiempo/laboratorio doméstico."
+      },
+      {
+        "h2": "Ley aplicable"
+      },
+      {
+        "p": "Estos términos se rigen por las leyes del Estado de California, sin tener en cuenta sus principios de conflicto de leyes."
+      },
+      {
+        "h2": "Contacto"
+      },
+      {
+        "p": "Preguntas sobre estos términos: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  }
+}

@@ -1,5 +1,7 @@
 import "./globals.css";
 import { config } from "../lib/config.js";
+import { SiteHeader, SiteFooter } from "./components/SiteChrome.jsx";
+import { languageAlternates } from "./get-dictionary.js";
 
 export const metadata = {
   metadataBase: new URL(config.siteUrl),
@@ -20,7 +22,7 @@ export const metadata = {
   ],
   authors: [{ name: "Hackatoa", url: "https://hackatoa.com" }],
   creator: "Hackatoa",
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: languageAlternates("") },
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
@@ -47,39 +49,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <header className="site-header">
-          <nav>
-            <a className="brand" href="/">
-              <span className="brand-mark" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-                <span />
-              </span>
-              Mosaic
-            </a>
-            <div className="nav-links">
-              <a href="/">Generate</a>
-              <a href="/privacy">Privacy</a>
-              <a href="/terms">Terms</a>
-              <a href="https://github.com/Hackatoan/mosaic" target="_blank" rel="noreferrer">
-                GitHub
-              </a>
-            </div>
-          </nav>
-        </header>
+        <SiteHeader />
         <main>{children}</main>
-        <footer className="site-footer">
-          <div className="inner">
-            <span>© {new Date().getFullYear()} Hackatoa</span>
-            <span>
-              Built by <a href="https://hackatoa.com">hackatoa.com</a>
-            </span>
-            <span>
-              <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
-            </span>
-          </div>
-        </footer>
+        <SiteFooter />
       </body>
     </html>
   );

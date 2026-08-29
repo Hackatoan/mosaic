@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { resultExists } from "../../../lib/results.js";
 import { config } from "../../../lib/config.js";
+import { SharedMosaicView } from "../../components/SharedMosaicView.jsx";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -39,27 +40,5 @@ export default async function SharedMosaicPage({ params }) {
 
   const imageUrl = `/api/m/${id}`;
 
-  return (
-    <article>
-      <h1>A shared photomosaic</h1>
-      <p className="subtitle">
-        Made with <a href="/">Mosaic</a>. Shared links stick around for {config.shareRetentionDays}{" "}
-        days after they were last viewed.
-      </p>
-      <section className="card result">
-        <div className="result-image-wrap">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={imageUrl} alt="Shared photomosaic" />
-        </div>
-        <div className="result-meta">
-          <a className="secondary" href={imageUrl} download="mosaic.png">
-            Download PNG
-          </a>
-          <a className="secondary" href="/">
-            Make your own
-          </a>
-        </div>
-      </section>
-    </article>
-  );
+  return <SharedMosaicView imageUrl={imageUrl} days={config.shareRetentionDays} />;
 }

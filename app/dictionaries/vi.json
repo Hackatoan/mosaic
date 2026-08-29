@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "homeTitle": "Mosaic — Biến mọi bức ảnh thành tranh ghép mosaic",
+    "homeDescription": "Trình tạo tranh ghép mosaic miễn phí. Tải lên một bức ảnh gốc và một bộ ảnh ô (tile), Mosaic sẽ tái tạo lại bức ảnh từ hàng trăm ô nhỏ hơn được khớp màu trung bình. Không cần đăng ký, không lưu trữ gì cả.",
+    "ogDescription": "Trình tạo tranh ghép mosaic miễn phí. Tải lên một bức ảnh và các ảnh ô; Mosaic tái tạo lại bức ảnh từ hàng trăm ô khớp màu.",
+    "privacyTitle": "Chính sách Quyền riêng tư",
+    "privacyDescription": "Cách Mosaic xử lý các hình ảnh bạn tải lên.",
+    "termsTitle": "Điều khoản Dịch vụ",
+    "termsDescription": "Các điều khoản sử dụng Mosaic, trình tạo tranh ghép mosaic."
+  },
+  "nav": {
+    "generate": "Tạo",
+    "privacy": "Quyền riêng tư",
+    "terms": "Điều khoản"
+  },
+  "footer": {
+    "builtBy": "Được xây dựng bởi",
+    "privacy": "Quyền riêng tư",
+    "terms": "Điều kiện"
+  },
+  "app": {
+    "h1": "Biến một bức ảnh thành tranh ghép ảnh",
+    "subtitle": "Tải lên một bức ảnh gốc, sau đó cung cấp các ảnh ô — ảnh của riêng bạn, tự động lấy từ Pexels theo chủ đề hoặc lấy từ thư mục Google Drive công khai. Mosaic đo màu trung bình của từng vùng trong ảnh của bạn và dựng lại ảnh đó từ các ô khớp nhất. Không có gì bạn tải lên được lưu trữ; nội dung được xử lý trong bộ nhớ và xóa ngay sau khi bức tranh ghép của bạn được trả về — trừ khi bạn yêu cầu liên kết có thể chia sẻ, liên kết này chỉ lưu bức tranh ghép đã hoàn thành.",
+    "s1Title": "1. Ảnh gốc",
+    "sourceDrop": "Thả ảnh vào đây hoặc nhấp để chọn một ảnh",
+    "sourceUpTo": "Lên đến {mb}MB.",
+    "sourcePreviewAlt": "Xem trước nguồn",
+    "s2Title": "2. Ảnh ô",
+    "modeUpload": "Tải ảnh của tôi lên",
+    "modeTopic": "Tự động lấy theo chủ đề",
+    "modeDrive": "Từ thư mục Drive",
+    "topicDisabledTitle": "Tính năng tự động lấy ảnh chưa được cấu hình trên máy chủ này",
+    "driveDisabledTitle": "Tính năng lấy ảnh từ Google Drive chưa được cấu hình trên máy chủ này",
+    "tilesDrop": "Thả các hình ảnh ô vào đây hoặc nhấp để thêm",
+    "tilesHint": "{min}–{max} hình ảnh, tối đa {mb}MB mỗi ảnh. Càng nhiều ô thì màu sắc càng khớp hơn.",
+    "tilesSelected": "Đã chọn {count} hình ảnh ô",
+    "clear": "xóa",
+    "moreCount": "+{n} ảnh nữa",
+    "searchTopic": "Tìm kiếm chủ đề",
+    "topicPlaceholder": "ví dụ: lá thu, đường chân trời thành phố, mèo nhà",
+    "tileCount": "Số lượng ô",
+    "pexelsHint": "Ảnh ghép được lấy từ <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> cho chủ đề tìm kiếm của bạn và chỉ được sử dụng để tạo bức tranh khảm này — xem <a href=\"/privacy\">Chính sách quyền riêng tư</a> để biết chi tiết.",
+    "driveFolderLabel": "Liên kết thư mục Google Drive",
+    "drivePlaceholder": "https://drive.google.com/drive/folders/…",
+    "driveHint": "Thư mục phải được chia sẻ ở chế độ <strong>\"Bất kỳ ai có đường liên kết\"</strong> (Người xem) — Mosaic không thể truy cập các thư mục riêng tư. Hình ảnh được đọc trực tiếp từ thư mục của bạn và chỉ được dùng để tạo bức tranh khảm này — xem <a href=\"/privacy\">Chính sách quyền riêng tư</a> để biết chi tiết.",
+    "s3Title": "3. Cài đặt lưới",
+    "columns": "Cột",
+    "tileSizeLabel": "Kích thước ô",
+    "shareToggle": "Lấy liên kết có thể chia sẻ cho kết quả này (chỉ lưu bức tranh khảm hoàn thiện — không bao gồm ảnh bạn tải lên — công khai tại một URL riêng tư trong 14 ngày kể từ lần xem cuối cùng)",
+    "generate": "Tạo tranh khảm",
+    "generating": "Đang tạo…",
+    "working": "Đang khớp các ô và tạo hình…",
+    "reqFailed": "Yêu cầu thất bại ({status}).",
+    "networkError": "Lỗi mạng — máy chủ có truy cập được không?",
+    "done": "Hoàn thành.",
+    "resultTitle": "Kết quả",
+    "resultAlt": "Bức tranh khảm ảnh đã tạo",
+    "resultMeta": "{cols}×{rows} ô ở kích thước {size}px",
+    "downloadPng": "Tải xuống PNG",
+    "copyLink": "Sao chép liên kết",
+    "copied": "Đã sao chép!",
+    "apiHint": "Bạn muốn gọi trực tiếp? Sử dụng <code>POST /api/generate</code> dưới dạng <code>multipart/form-data</code> với <code>source</code>, kèm theo một trong số <code>tiles</code> (trường tệp lặp lại), <code>topic</code> hoặc <code>driveFolder</code>, và tùy chọn <code>share=true</code> — hãy xem <a href=\"/api/generate\">GET /api/generate</a> để biết thông số kỹ thuật đầy đủ."
+  },
+  "shared": {
+    "title": "Một bức ảnh ghép khảm chia sẻ",
+    "subtitle": "Được tạo bằng <a href=\"/\">Mosaic</a>. Các liên kết được chia sẻ sẽ tồn tại trong {days} ngày kể từ lần xem cuối cùng.",
+    "imgAlt": "Ảnh ghép khảm được chia sẻ",
+    "downloadPng": "Tải xuống PNG",
+    "makeYourOwn": "Tự làm của riêng bạn"
+  },
+  "privacy": {
+    "blocks": [
+      {
+        "h1": "Chính sách Quyền riêng tư"
+      },
+      {
+        "p": "Cập nhật lần cuối: Ngày 18 tháng 8 năm 2026"
+      },
+      {
+        "p": "Mosaic (\"chúng tôi\", \"dịch vụ\") là một công cụ nhỏ tự lưu trữ (self-hosted) giúp biến một bức ảnh thành tranh ghép ảnh (photomosaic) được tạo từ các hình ảnh ô gạch do bạn cung cấp. Trang này giải thích điều gì xảy ra với các hình ảnh và dữ liệu bạn gửi cho chúng tôi."
+      },
+      {
+        "h2": "Những gì chúng tôi xử lý"
+      },
+      {
+        "ul": [
+          "Ảnh nguồn bạn tải lên.",
+          "Hình ảnh ô gạch, lấy từ một trong ba cách: tệp do chính bạn tải lên, chủ đề tìm kiếm bạn nhập (\"tự động lấy theo chủ đề\"), hoặc liên kết thư mục Google Drive bạn cung cấp.",
+          "Cài đặt lưới (cột, kích thước ô) bạn chọn.",
+          "Nếu bạn yêu cầu rõ ràng một liên kết có thể chia sẻ: hình ảnh bức tranh ghép hoàn thiện, để nó có thể hiển thị tại liên kết đó."
+        ]
+      },
+      {
+        "h2": "Những gì chúng tôi không làm"
+      },
+      {
+        "ul": [
+          "Chúng tôi không yêu cầu tài khoản và chúng tôi không thu thập tên, email hoặc thông tin thanh toán.",
+          "Chúng tôi không chạy công cụ phân tích hoặc trình theo dõi quảng cáo trên trang web này.",
+          "Chúng tôi không bán hoặc sử dụng hình ảnh của bạn cho bất kỳ mục đích nào khác ngoài việc tạo (và, nếu bạn yêu cầu, chia sẻ) bức Mosaic mà bạn đã yêu cầu.",
+          "Chúng tôi không bao giờ gửi ảnh gốc của bạn, hoặc bất kỳ hình ảnh mảnh ghép nào do chính bạn tải lên, cho bất kỳ bên thứ ba nào."
+        ]
+      },
+      {
+        "h2": "Tự động lấy theo chủ đề (Pexels)"
+      },
+      {
+        "p": "Nếu bạn chọn \"tự động lấy theo chủ đề\" thay vì tải lên các mảnh ghép của riêng mình, chủ đề tìm kiếm bạn nhập sẽ được gửi từ máy chủ của chúng tôi đến <a href=\"https://www.pexels.com/api/\" target=\"_blank\" rel=\"noreferrer\">Pexels API</a> để tìm các bức ảnh phù hợp, sau đó các bức ảnh này được tải xuống bởi máy chủ của chúng tôi và được sử dụng làm mảnh ghép theo cách tương tự như các mảnh ghép được tải lên — chỉ được giữ lại trong suốt thời gian xử lý yêu cầu của bạn và sẽ bị xóa ngay khi bức Mosaic được trả về. Chỉ có văn bản chủ đề được gửi đến Pexels; ảnh gốc và vị trí suy ra từ IP của bạn không được chia sẻ với Pexels. Các hình ảnh mảnh ghép đã lấy có thể được lưu trong bộ nhớ đệm tạm thời (tối đa 10 phút) để các tìm kiếm giống hệt nhau không cần gọi lại Pexels API; bộ nhớ đệm này không bao giờ được ghi vào đĩa và sẽ được xóa khi khởi động lại. Việc xử lý yêu cầu của Pexels (ví dụ: nhật ký máy chủ của họ) tuân theo <a href=\"https://www.pexels.com/privacy-policy/\" target=\"_blank\" rel=\"noreferrer\">chính sách quyền Riêng tư</a> của họ, mà chúng tôi không kiểm soát. Chế độ này hoàn toàn là tùy chọn."
+      },
+      {
+        "h2": "Các mảnh ghép từ thư mục Google Drive"
+      },
+      {
+        "p": "Nếu bạn chọn \"từ thư mục Drive\", liên kết hoặc id thư mục bạn cung cấp sẽ được gửi từ máy chủ của chúng tôi đến Google Drive API để liệt kê và tải xuống các tệp hình ảnh bên trong — tính năng này chỉ hoạt động đối với các thư mục được chia sẻ ở chế độ \"Bất kỳ ai có đường liên kết\"; chúng tôi không có cách nào truy cập vào thư mục riêng tư và không bao giờ yêu cầu bạn đăng nhập bằng tài khoản Google. Hình ảnh đã tải xuống được sử dụng làm mảnh ghép theo cách tương tự như các mảnh ghép được tải lên — chỉ được giữ lại trong suốt thời gian xử lý yêu cầu của bạn, cộng với bộ nhớ đệm tạm thời giống như mô tả ở trên đối với các yêu cầu thư mục giống hệt nhau. Chỉ có liên kết/id thư mục được gửi đến Google; ảnh gốc của bạn thì không. Việc xử lý yêu cầu đó của Google tuân theo <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noreferrer\">chính sách quyền riêng tư</a> của họ, mà chúng tôi không kiểm soát. Bạn chịu trách nhiệm chỉ trỏ Mosaic đến các thư mục mà bạn có quyền sử dụng theo cách này — xem <a href=\"/terms\">Điều khoản Dịch vụ</a>."
+      },
+      {
+        "h2": "Liên kết có thể chia sẻ"
+      },
+      {
+        "p": "Theo mặc định, việc tạo Mosaic không bao giờ lưu bất cứ thứ gì. Nếu bạn chọn rõ ràng \"tạo liên kết có thể chia sẻ\", thì <em>chỉ hình ảnh Mosaic hoàn thành</em> — không bao giờ là ảnh gốc của bạn, không bao giờ là hình ảnh mảnh ghép hoặc chủ đề/thư mục được dùng làm nguồn của chúng — sẽ được lưu vào đĩa trên máy chủ của chúng tôi dưới một URL ngẫu nhiên, không thể đoán trước (<code>/m/&lt;id&gt;</code>). Bất kỳ ai có chính xác URL đó đều có thể xem hoặc tải xuống hình ảnh đó; ngoài ra, nó không được liệt kê, lập chỉ mục hoặc có thể tìm thấy theo cách nào khác (các công cụ tìm kiếm được yêu cầu không thu thập dữ liệu hoặc lập chỉ mục). Nó sẽ tự động bị xóa 14 ngày sau lần xem cuối cùng — xem lại sẽ đặt lại đồng hồ đếm ngược 14 ngày đó, vì vậy một liên kết được chia sẻ tích cực sẽ tiếp tục tồn tại, nhưng liên kết bị bỏ quên cuối cùng sẽ hết hạn. Chúng tôi không có cách nào liên kết một bức Mosaic đã chia sẻ với người đã tạo ra nó sau khi sự việc đã diễn ra."
+      },
+      {
+        "h2": "Thời gian chúng tôi lưu giữ hình ảnh của bạn"
+      },
+      {
+        "p": "Ảnh gốc và hình ảnh mảnh ghép của bạn (được tải lên, lấy từ Pexels hoặc lấy từ Drive) chỉ được giữ lại trong bộ nhớ máy chủ trong thời gian diễn ra một yêu cầu tạo duy nhất và sẽ bị xóa ngay khi tệp PNG Mosaic kết quả được gửi trả lại trình duyệt của bạn — không được ghi vào đĩa, cơ sở dữ liệu hoặc bất kỳ bộ lưu trữ lâu dài nào — ngoại trừ bộ nhớ đệm mảnh ghép tạm thời ngắn hạn được mô tả ở trên. Điều <strong>duy nhất</strong> chúng tôi từng ghi vào đĩa là hình ảnh Mosaic hoàn chỉnh, và chỉ khi bạn yêu cầu rõ ràng một liên kết có thể chia sẻ cho nó (xem ở trên)."
+      },
+      {
+        "h2": "Nhật ký máy chủ"
+      },
+      {
+        "p": "Giống như hầu hết các dịch vụ web, cơ sở hạ tầng của chúng tôi (proxy ngược / dịch vụ lưu trữ) lưu giữ các nhật ký truy cập tiêu chuẩn, có thời gian tồn tại ngắn (địa chỉ IP, dấu thời gian, đường dẫn được yêu cầu, trạng thái phản hồi) cho các mục đích vận hành và để phát hiện hành vi lạm dụng điểm cuối API công khai. Các nhật ký này không chứa nội dung hình ảnh bạn đã tải lên. Trình giới hạn tỷ lệ theo dõi số lượng yêu cầu mà một địa chỉ IP đã thực hiện trong vài phút qua; bộ đếm đó chỉ được giữ trong bộ nhớ và sẽ được đặt lại bất cứ khi nào dịch vụ khởi động lại."
+      },
+      {
+        "h2": "Cookie"
+      },
+      {
+        "p": "Mosaic không thiết lập bất kỳ cookie nào."
+      },
+      {
+        "h2": "Quyền riêng tư của trẻ em"
+      },
+      {
+        "p": "Mosaic không hướng đến trẻ em và chúng tôi không cố ý thu thập thông tin cá nhân từ trẻ em."
+      },
+      {
+        "h2": "Quyền của bạn"
+      },
+      {
+        "p": "Vì chúng tôi không lưu giữ hình ảnh đã tải lên hoặc dữ liệu tài khoản (ngoài bản mosaic có thể chia sẻ được yêu cầu rõ ràng, như trên), nhìn chung không có dữ liệu nào khác được lưu trữ để truy cập, xuất hoặc xóa. Nếu bạn muốn xóa một bản mosaic được chia sẻ trước khi hết hạn thời gian 14 ngày hoặc có thắc mắc, hãy liên hệ với chúng tôi theo thông tin chi tiết bên dưới."
+      },
+      {
+        "h2": "Những thay đổi đối với chính sách này —"
+      },
+      {
+        "p": "Nếu chính sách này thay đổi — ví dụ: nếu phiên bản trong tương lai bổ sung nguồn hình ảnh của bên thứ ba khác hoặc cách lưu thư viện ô giữa các lần truy cập — chúng tôi sẽ cập nhật trang này và ngày \"cập nhật lần cuối\" ở trên trước khi tính năng đó chính thức hoạt động."
+      },
+      {
+        "h2": "Liên hệ"
+      },
+      {
+        "p": "Câu hỏi về chính sách này: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  },
+  "terms": {
+    "blocks": [
+      {
+        "h1": "Điều khoản Dịch vụ"
+      },
+      {
+        "p": "Cập nhật lần cuối: 18 tháng 8, 2026"
+      },
+      {
+        "p": "Các điều khoản này chi phối việc bạn sử dụng Mosaic, một công cụ miễn phí tạo tranh khảm ảnh từ ảnh nguồn và các ảnh ô gạch. Bằng cách sử dụng Mosaic, bạn đồng ý với các điều khoản này."
+      },
+      {
+        "h2": "Mosaic làm gì"
+      },
+      {
+        "p": "Bạn cung cấp một bức ảnh nguồn và một tập hợp các ảnh ô gạch — được tải lên trực tiếp, tự động lấy từ Pexels theo chủ đề, hoặc lấy từ thư mục Google Drive mà bạn liên kết. Mosaic phân tích màu sắc trung bình của các vùng trong ảnh nguồn của bạn, khớp từng vùng với ảnh ô gạch có màu sắc gần nhất, và tổng hợp kết quả thành một bức ảnh duy nhất được tạo ra, sau đó trả về cho bạn. Mosaic cũng cung cấp chức năng này dưới dạng một điểm cuối API công khai (<code>POST /api/generate</code>), và có thể tùy chọn tạo liên kết công khai cho kết quả (xem phần \"Liên kết có thể chia sẻ\" bên dưới)."
+      },
+      {
+        "h2": "Nội dung của bạn"
+      },
+      {
+        "ul": [
+          "Bạn phải sở hữu quyền đối với, hoặc có quyền sử dụng và chia sẻ công khai, mọi hình ảnh liên quan — cho dù bạn tải lên trực tiếp, hay trỏ Mosaic tới đó thông qua liên kết thư mục Google Drive. Việc trỏ Mosaic tới một thư mục Drive được coi là tương tự như việc bạn tự tải lên nội dung của thư mục đó theo các điều khoản này.",
+          "Bạn giữ lại mọi quyền mà bạn đã có đối với các hình ảnh bạn cung cấp. Chúng tôi không khẳng định quyền sở hữu đối với chúng hoặc bức tranh khảm được tạo ra từ chúng.",
+          "Mosaic không kiểm duyệt nội dung trước khi xử lý. Bạn hoàn toàn chịu trách nhiệm về những gì mình cung cấp và hình ảnh được tạo ra."
+        ]
+      },
+      {
+        "h2": "Ảnh ghép tự động (Pexels)"
+      },
+      {
+        "p": "Nếu bạn sử dụng tùy chọn \"tự động lấy ảnh theo chủ đề\", các ảnh ô nhỏ dùng trong mosaic của bạn được lấy từ <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> và được cấp phép cho bạn theo <a href=\"https://www.pexels.com/license/\" target=\"_blank\" rel=\"noreferrer\">Giấy phép Pexels</a>. Tóm lại: miễn phí sử dụng và chỉnh sửa, không bắt buộc phải ghi nguồn về mặt pháp lý, nhưng bạn không được bán lại hoặc phân phối lại bản sao chưa chỉnh sửa của ảnh Pexels một cách đơn lẻ, ngụ ý rằng những người hoặc thương hiệu xuất hiện trong ảnh chứng thực cho bạn mà không có sự cho phép của họ, hoặc sử dụng nội dung Pexels theo cách cạnh tranh với Pexels. Bức ảnh mosaic được tạo ra — một sự biến đổi đáng kể kết hợp nhiều ô ảnh như vậy — là của bạn để sử dụng, nhưng các ảnh ô nhỏ bên dưới vẫn tuân theo giấy phép đó. Chúng tôi hiển thị dòng ghi công nhiếp ảnh gia/Pexels không bắt buộc bên cạnh các kết quả được tạo theo cách này như một sự tôn trọng."
+      },
+      {
+        "h2": "Ảnh từ thư mục Google Drive"
+      },
+      {
+        "p": "Nếu bạn sử dụng tùy chọn \"từ thư mục Drive\", bạn đang tuyên bố rằng bạn có quyền sử dụng mọi hình ảnh trong thư mục đó theo cách này. Tính năng này chỉ hoạt động đối với các thư mục bạn đã chia sẻ ở chế độ \"Bất kỳ ai có đường liên kết\" — bằng cách sử dụng tính năng này, bạn là người chọn làm cho nội dung của thư mục đó có thể truy cập được đối với Mosaic và bạn chịu trách nhiệm về những gì bạn đặt vào thư mục mà bạn trỏ chúng tôi tới."
+      },
+      {
+        "h2": "Liên kết có thể chia sẻ"
+      },
+      {
+        "p": "Việc tạo mosaic không bao giờ tạo ra liên kết công khai trừ khi bạn yêu cầu rõ ràng. Nếu bạn làm vậy, hình ảnh mosaic hoàn chỉnh sẽ được lưu trữ trên máy chủ của chúng tôi và có thể truy cập được đối với bất kỳ ai có liên kết đó — hãy coi nó giống như việc chia sẻ một bức ảnh không công khai danh sách thay vì ảnh riêng tư. Các liên kết sẽ tự động hết hạn sau 14 ngày kể từ lần cuối mosaic được xem. Không yêu cầu liên kết có thể chia sẻ cho mosaic được xây dựng từ nội dung mà bạn không có quyền công khai; các giới hạn sử dụng chấp nhận được bên dưới áp dụng cho kết quả được chia sẻ cũng giống như mọi thứ khác."
+      },
+      {
+        "h2": "Sử dụng chấp nhận được"
+      },
+      {
+        "p": "Bạn đồng ý không sử dụng Mosaic để tải lên, tạo hoặc cố gắng tạo hình ảnh:"
+      },
+      {
+        "ul": [
+          "Mô tả tài liệu lạm dụng tình dục trẻ em, hoặc nội dung tình dục liên quan đến trẻ vị thành niên dưới bất kỳ hình thức nào.",
+          "Vi phạm bản quyền, nhãn hiệu hoặc quyền sở hữu trí tuệ khác của người khác.",
+          "Được sử dụng để quấy rối, phỉ báng, đe dọa hoặc xâm phạm quyền riêng tư của người khác.",
+          "Vi phạm bất kỳ luật hiện hành nào."
+        ]
+      },
+      {
+        "p": "Bạn cũng đồng ý không lạm dụng dịch vụ hoặc API công khai của dịch vụ — bao gồm việc cố gắng vượt qua giới hạn tốc độ, giới hạn tải lên hoặc các biện pháp kiểm soát kỹ thuật khác, hoặc sử dụng các phương tiện tự động để làm quá tải dịch vụ."
+      },
+      {
+        "h2": "Không có bảo đảm"
+      },
+      {
+        "p": "Mosaic được cung cấp theo nguyên trạng (\"as is\") và tùy theo khả năng cung cấp (\"as available\"), không có bất kỳ bảo đảm nào dưới mọi hình thức, dù là rõ ràng hay ngụ ý. Chúng tôi không đảm bảo dịch vụ sẽ không bị gián đoạn, không có lỗi hoặc luôn sẵn có tại bất kỳ thời điểm nào — đây là một công cụ nhỏ, tự lưu trữ và miễn phí."
+      },
+      {
+        "h2": "Giới hạn trách nhiệm pháp lý"
+      },
+      {
+        "p": "Trong phạm vi tối đa được pháp luật cho phép, Hackatoa không chịu trách nhiệm pháp lý cho bất kỳ thiệt hại gián tiếp, ngẫu nhiên hoặc do hậu quả phát sinh từ việc bạn sử dụng hoặc không thể sử dụng Mosaic."
+      },
+      {
+        "h2": "Thay đổi và tính sẵn có"
+      },
+      {
+        "p": "Chúng tôi có thể thay đổi, tạm ngưng hoặc ngừng cung cấp Mosaic (hoặc bất kỳ phần nào của Mosaic, bao gồm cả API công khai) vào bất kỳ lúc nào mà không cần thông báo trước, vì đây được cung cấp miễn phí như một dự án sở thích/phòng thí nghiệm tại nhà (homelab)."
+      },
+      {
+        "h2": "Luật điều chỉnh"
+      },
+      {
+        "p": "Các điều khoản này được điều chỉnh bởi luật pháp Tiểu bang California, bất chấp các nguyên tắc xung đột pháp luật."
+      },
+      {
+        "h2": "Liên hệ"
+      },
+      {
+        "p": "Câu hỏi về các điều khoản này: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  }
+}

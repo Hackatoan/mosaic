@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "homeTitle": "Mosaic — Verwende jedes Foto als Fotomosaik",
+    "homeDescription": "Kostenloser Fotomosaik-Generator. Lade ein Quellfoto und eine Menge Kachel-Bilder hoch, und Mosaic baut das Foto aus Hunderten kleinerer Kacheln nach, die nach Durchschnittsfarbe zugeordnet sind. Keine Registrierung, nichts wird gespeichert.",
+    "ogDescription": "Kostenloser Fotomosaik-Generator. Lade ein Foto und Kachelbilder hoch; Mosaic baut es aus Hunderten farblich passenden Kacheln nach.",
+    "privacyTitle": "Datenschutzerklärung",
+    "privacyDescription": "Wie Mosaic mit den von dir hochgeladenen Bildern umgeht.",
+    "termsTitle": "Nutzungsbedingungen",
+    "termsDescription": "Bedingungen für die Nutzung von Mosaic, dem Fotomosaik-Generator."
+  },
+  "nav": {
+    "generate": "Generieren",
+    "privacy": "Datenschutz",
+    "terms": "Bedingungen"
+  },
+  "footer": {
+    "builtBy": "Erstellt von",
+    "privacy": "Datenschutz",
+    "terms": "AGB"
+  },
+  "app": {
+    "h1": "Verwandle ein Foto in ein Fotomosaik",
+    "subtitle": "Lade ein Quellfoto hoch und füge dann Kachelbilder hinzu – entweder eigene, automatisch nach Thema von Pexels abgerufene oder aus einem öffentlichen Google Drive-Ordner geladene. Mosaic misst die Durchschnittsfarbe jedes Bereichs deines Fotos und baut es aus den am besten übereinstimmenden Kacheln nach. Nichts von dem, was du hochlädst, wird gespeichert; es wird im Arbeitsspeicher verarbeitet und verworfen, sobald dein Mosaik fertig ist – es sei denn, du fragst nach einem Link zum Teilen, wodurch nur das fertige Mosaik gespeichert wird.",
+    "s1Title": "1. Quellfoto",
+    "sourceDrop": "Ziehe ein Foto hierher oder klicke, um eines auszuwählen",
+    "sourceUpTo": "Bis zu {mb} MB.",
+    "sourcePreviewAlt": "Quellvorschau",
+    "s2Title": "2. Kachelbilder",
+    "modeUpload": "Eigene Bilder hochladen",
+    "modeTopic": "Automatisch nach Thema abrufen",
+    "modeDrive": "Aus Drive-Ordner",
+    "topicDisabledTitle": "Der automatische Abruf ist auf diesem Server nicht konfiguriert",
+    "driveDisabledTitle": "Der Google Drive-Abruf ist auf diesem Server nicht konfiguriert",
+    "tilesDrop": "Kachel-Bilder hierher ziehen oder zum Hinzufügen klicken",
+    "tilesHint": "{min}–{max} Bilder, jeweils bis zu {mb} MB. Mehr Kacheln = bessere Farbübereinstimmungen.",
+    "tilesSelected": "{count} Kachel-Bilder ausgewählt",
+    "clear": "leeren",
+    "moreCount": "+{n} weitere",
+    "searchTopic": "Thema suchen",
+    "topicPlaceholder": "z. B. Herbstblätter, Stadtsilhouetten, Hauskatzen",
+    "tileCount": "Kachelanzahl",
+    "pexelsHint": "Kachelfotos werden für dein Suchthema von <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> abgerufen und nur zum Erstellen dieses Mosaiks verwendet – siehe <a href=\"/privacy\">Datenschutz</a> für Details.",
+    "driveFolderLabel": "Google Drive-Ordnerlink",
+    "drivePlaceholder": "https://drive.google.com/drive/folders/…",
+    "driveHint": "Der Ordner muss als <strong>„Jeder, der über den Link verfügt“</strong> (Betrachter) freigegeben sein – Mosaic kann nicht auf private Ordner zugreifen. Bilder werden direkt aus deinem Ordner gelesen und nur zum Erstellen dieses Mosaiks verwendet – siehe <a href=\"/privacy\">Datenschutz</a> für Details.",
+    "s3Title": "3. Gittereinstellungen",
+    "columns": "Spalten",
+    "tileSizeLabel": "Kachelgröße",
+    "shareToggle": "Einen teilbaren Link für dieses Ergebnis erhalten (speichert nur das fertige Mosaik – nicht Ihre Uploads – öffentlich unter einer privaten URL für 14 Tage nach der letzten Ansicht)",
+    "generate": "Mosaik erstellen",
+    "generating": "Wird erstellt…",
+    "working": "Kacheln werden zugeordnet und zusammengefügt…",
+    "reqFailed": "Anfrage fehlgeschlagen ({status}).",
+    "networkError": "Netzwerkfehler – ist der Server erreichbar?",
+    "done": "Fertig.",
+    "resultTitle": "Ergebnis",
+    "resultAlt": "Generiertes Fotomosaik",
+    "resultMeta": "{cols}×{rows} Kacheln bei {size}px",
+    "downloadPng": "PNG herunterladen",
+    "copyLink": "Link kopieren",
+    "copied": "Kopiert!",
+    "apiHint": "Lieber direkt aufrufen? <code>POST /api/generate</code> als <code>multipart/form-data</code> mit <code>source</code> sowie entweder <code>tiles</code> (wiederholtes Dateifeld), <code>topic</code> oder <code>driveFolder</code> und optional <code>share=true</code> — siehe <a href=\"/api/generate\">GET /api/generate</a> für die vollständige Spezifikation."
+  },
+  "shared": {
+    "title": "Ein geteiltes Fotomosaik",
+    "subtitle": "Erstellt mit <a href=\"/\">Mosaic</a>. Geteilte Links bleiben {days} Tage nach ihrem letzten Aufruf erhalten.",
+    "imgAlt": "Geteiltes Fotomosaik",
+    "downloadPng": "PNG herunterladen",
+    "makeYourOwn": "Eigenes erstellen"
+  },
+  "privacy": {
+    "blocks": [
+      {
+        "h1": "Datenschutz"
+      },
+      {
+        "p": "Stand: 18. August 2026"
+      },
+      {
+        "p": "Mosaic (\"wir\", \"der Dienst\") ist ein kleines, selbst gehostetes Tool, das ein Foto in ein Fotomosaik aus von Ihnen bereitgestellten Kachel-Bildern umwandelt. Diese Seite erklärt, was mit den Bildern und Daten passiert, die Sie an uns senden."
+      },
+      {
+        "h2": "Was wir verarbeiten"
+      },
+      {
+        "ul": [
+          "Das von Ihnen hochgeladene Quellfoto.",
+          "Kachel-Bilder, bezogen auf einen von drei Wegen: Dateien, die Sie selbst hochladen, ein von Ihnen eingegebener Suchbegriff (\"Automatisches Abrufen nach Thema\") oder ein von Ihnen bereitgestellter Google Drive-Ordnerlink.",
+          "Die von Ihnen gewählten Rastereinstellungen (Spalten, Kachelgröße).",
+          "Wenn Sie ausdrücklich einen übernehmbaren Link anfordern: das fertige Mosaikbild, damit es unter diesem Link bereitgestellt werden kann."
+        ]
+      },
+      {
+        "h2": "Was wir nicht tun"
+      },
+      {
+        "ul": [
+          "Wir verlangen kein Konto und erheben keine Namen, E-Mail-Adressen oder Zahlungsdaten.",
+          "Wir betreiben keine Analyse- oder Werbe-Tracker auf dieser Website.",
+          "Wir verkaufen Ihre Bilder nicht und verwenden sie für nichts anderes als das Generieren (und, auf Ihren Wunsch hin, das Teilen) des von Ihnen angeforderten Mosaic.",
+          "Wir senden Ihr Quellfoto oder von Ihnen selbst hochgeladene Kachelbilder niemals an Dritte."
+        ]
+      },
+      {
+        "h2": "Automatisch nach Thema abrufen (Pexels)"
+      },
+      {
+        "p": "Wenn Sie sich anstelle des Hochladens eigener Kacheln für \"Automatisch nach Thema abrufen\" entscheiden, wird der von Ihnen eingegebene Suchbegriff von unserem Server an die <a href=\"https://www.pexels.com/api/\" target=\"_blank\" rel=\"noreferrer\">Pexels API</a> gesendet, um passende Fotos zu finden. Diese werden daraufhin von unserem Server heruntergeladen und genauso wie hochgeladene Kacheln verwendet – sie werden nur für die Dauer Ihrer Anfrage vorgehalten und nach der Rückgabe des Mosaic verworfen. An Pexels wird ausschließlich der Suchbegriff gesendet; Ihr Quellfoto und Ihr über die IP-Adresse ermittelter Standort werden nicht an Pexels weitergegeben. Abgerufene Kachelbilder werden möglicherweise in einem kurzlebigen In-Memory-Cache (bis zu 10 Minuten) vorgehalten, damit identische Suchen die Pexels API nicht erneut abfragen müssen; dieser Cache wird niemals auf die Festplatte geschrieben und bei einem Neustart gelöscht. Die von Pexels vorgenommene Verarbeitung der Anfrage (z. B. deren Server-Logs) unterliegt deren <a href=\"https://www.pexels.com/privacy-policy/\" target=\"_blank\" rel=\"noreferrer\">Datenschutzrichtlinie</a>, auf die wir keinen Einfluss haben. Dieser Modus ist völlig optional."
+      },
+      {
+        "h2": "Kacheln aus einem Google Drive Ordner"
+      },
+      {
+        "p": "Wenn Sie sich für \"aus Drive-Ordner\" entscheiden, wird der von Ihnen bereitgestellte Ordnerlink oder die Ordner-ID von unserem Server an die Google Drive API gesendet, um die darin enthaltenen Bilddateien aufzulisten und herunterzuladen – dies funktioniert nur bei Ordnern, die als \"Jeder mit dem Link\" freigegeben sind; wir haben keine Möglichkeit, auf einen privaten Ordner zuzugreifen, und fordern Sie niemals auf, sich mit einem Google-Konto anzumelden. Heruntergeladene Bilder werden genauso wie hochgeladene Kacheln verwendet – sie werden nur für die Dauer Ihrer Anfrage vorgehalten, zuzüglich des oben beschriebenen, kurzlebigen In-Memory-Caches für identische Ordneranfragen. An Google wird ausschließlich der Ordnerlink bzw. die Ordner-ID gesendet; Ihr Quellfoto nicht. Die von Google vorgenommene Verarbeitung dieser Anfrage unterliegt deren <a href=\"https://policies.google.com/privacy\" target=\"_blank\" rel=\"noreferrer\">Datenschutzrichtlinie</a>, auf die wir keinen Einfluss haben. Sie sind dafür verantwortlich, Mosaic nur auf Ordner zu verweisen, die Sie auf diese Weise verwenden dürfen – siehe die <a href=\"/terms\">Nutzungsbedingungen</a>."
+      },
+      {
+        "h2": "Teilbare Links"
+      },
+      {
+        "p": "Standardmäßig wird beim Generieren eines Mosaic niemals etwas gespeichert. Wenn Sie ausdrücklich die Option \"Einen teilbaren Link erhalten\" aktivieren, wird <em>ausschließlich das fertige Mosaic-Bild</em> – niemals Ihr Quellfoto, niemals Ihre Kachelbilder oder das zu deren Beschaffung genutzte Thema bzw. der Ordner – unter einer zufälligen, nicht erratbaren URL (<code>/m/&lt;id&gt;</code>) auf der Festplatte unseres Servers gespeichert. Jede Person mit genau dieser URL kann dieses Bild ansehen oder herunterladen; es wird ansonsten weder aufgelistet noch indiziert oder auffindbar gemacht (Suchmaschinen werden gebeten, es nicht zu crawlen oder zu indizieren). Es wird automatisch 14 Tage nach dem letzten Aufruf gelöscht – ein erneuter Aufruf setzt diesen 14-Tage-Zähler zurück, sodass ein aktiv geteilter Link aktiv bleibt, ein aufgegebener Link jedoch schließlich abläuft. Es gibt für uns keine Möglichkeit, ein geteiltes Mosaic nachträglich der Person zuzuordnen, die es generiert hat."
+      },
+      {
+        "h2": "Wie lange wir Ihre Bilder aufbewahren"
+      },
+      {
+        "p": "Ihr Quellfoto und Ihre Kachelbilder (hochgeladen, über Pexels abgerufen oder über Drive abgerufen) werden nur für die Dauer einer einzelnen Generierungsanfrage im Serverspeicher vorgehalten und verworfen, sobald das resultierende Mosaic-PNG an Ihren Browser zurückgesendet wird – sie werden nicht auf die Festplatte, in eine Datenbank oder in einen anderen dauerhaften Speicher geschrieben, mit Ausnahme des oben beschriebenen kurzen In-Memory-Kachel-Caches. Das <strong>Einzige</strong>, was wir jemals auf die Festplatte schreiben, ist ein fertiges Mosaic-Bild, und auch das nur dann, wenn Sie ausdrücklich einen teilbaren Link dafür anfordern (siehe oben)."
+      },
+      {
+        "h2": "Server-Protokolle"
+      },
+      {
+        "p": "Wie die meisten Webdienste speichert unsere Infrastruktur (Reverse-Proxy / Hosting) standardmäßige, kurzlebige Zugriffsprotokolle (IP-Adresse, Zeitstempel, angeforderter Pfad, Antwortstatus) für betriebliche Zwecke und zur Erkennung von Missbrauch des öffentlichen API-Endpunkts. Diese Protokolle enthalten nicht den Inhalt Ihrer hochgeladenen Bilder. Ein Rate-Limiter verfolgt, wie viele Anfragen eine IP-Adresse in den letzten Minuten gestellt hat; dieser Zähler wird ausschließlich im Arbeitsspeicher gehalten und bei jedem Neustart des Dienstes zurückgesetzt."
+      },
+      {
+        "h2": "Cookies"
+      },
+      {
+        "p": "Mosaic setzt keine Cookies."
+      },
+      {
+        "h2": "Datenschutz von Kindern"
+      },
+      {
+        "p": "Mosaic richtet sich nicht an Kinder und wir erfassen nicht wissentlich personenbezogene Daten von Kindern."
+      },
+      {
+        "h2": "Ihre Rechte"
+      },
+      {
+        "p": "Da wir keine hochgeladenen Bilder oder Kontodaten speichern (abgesehen von einem ausdrücklich angeforderten, teilbaren Mosaic wie oben beschrieben), gibt es im Allgemeinen keine weiteren gespeicherten Daten auf die zugegriffen, die exportiert oder die gelöscht werden könnten. Wenn Sie möchten, dass ein geteiltes Mosaic vor Ablauf der 14-Tage-Frist entfernt wird, oder wenn Sie Fragen haben, kontaktieren Sie uns über die unten stehenden Kontaktdaten."
+      },
+      {
+        "h2": "Änderungen dieser Richtlinie"
+      },
+      {
+        "p": "Wenn sich diese Richtlinie ändert – zum Beispiel, wenn eine zukünftige Version eine weitere Bildquelle eines Drittanbieters oder eine Möglichkeit zum Speichern einer Kachelbibliothek zwischen Besuchen hinzufügt –, aktualisieren wir diese Seite und das \"Zuletzt aktualisiert\"-Datum oben, bevor diese Funktion live geht."
+      },
+      {
+        "h2": "Kontakt"
+      },
+      {
+        "p": "Fragen zu dieser Richtlinie: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  },
+  "terms": {
+    "blocks": [
+      {
+        "h1": "Nutzungsbedingungen"
+      },
+      {
+        "p": "Zuletzt aktualisiert: 18. August 2026"
+      },
+      {
+        "p": "Diese Bedingungen regeln Ihre Nutzung von Mosaic, einem kostenlosen Tool, das aus einem Quellfoto und Kachelbildern ein Fotomosaik generiert. Durch die Nutzung von Mosaic erklären Sie sich mit diesen Bedingungen einverstanden."
+      },
+      {
+        "h2": "Was Mosaic tut"
+      },
+      {
+        "p": "Sie stellen ein Quellfoto und eine Reihe von Kachelbildern zur Verfügung – entweder direkt hochgeladen, automatisch nach Thema von Pexels abgerufen oder aus einem von Ihnen verlinkten Google Drive-Ordner geladen. Mosaic analysiert die Durchschnittsfarbe von Bereichen Ihres Quellfotos, gleicht jeden Bereich mit dem farblich ähnlichsten Kachelbild ab und setzt das Ergebnis zu einem einzigen generierten Bild zusammen, das an Sie zurückgegeben wird. Mosaic stellt diese Funktionalität auch als öffentlichen API-Endpunkt (<code>POST /api/generate</code>) zur Verfügung und kann optional einen öffentlichen Link für ein Ergebnis generieren (siehe \"Teilbare Links\" unten)."
+      },
+      {
+        "h2": "Ihre Inhalte"
+      },
+      {
+        "ul": [
+          "Sie müssen die Rechte an jedem beteiligten Bild besitzen oder anderweitig die Erlaubnis haben, es zu nutzen und öffentlich zu teilen – unabhängig davon, ob Sie es direkt hochladen oder Mosaic über einen Google Drive-Ordnerlink darauf verweisen lassen. Das Verweisen von Mosaic auf einen Ordner in Drive wird für die Zwecke dieser Bedingungen genauso behandelt wie das direkte Hochladen von dessen Inhalt.",
+          "Sie behalten alle Rechte, die Sie bereits an den von Ihnen bereitgestellten Bildern hatten. Wir erheben keinen Anspruch auf das Eigentum an ihnen oder dem daraus generierten Mosaik.",
+          "Mosaic prüft Inhalte vor der Verarbeitung nicht. Sie tragen die alleinige Verantwortung für das, was Sie bereitstellen, und für das resultierende generierte Bild."
+        ]
+      },
+      {
+        "h2": "Automatisch abgerufene Kacheln (Pexels)"
+      },
+      {
+        "p": "Wenn Sie die Option „Automatisch nach Thema abrufen“ verwenden, stammen die für Ihr Mosaic verwendeten Kachelfotos von <a href=\"https://www.pexels.com\" target=\"_blank\" rel=\"noreferrer\">Pexels</a> und sind unter der <a href=\"https://www.pexels.com/license/\" target=\"_blank\" rel=\"noreferrer\">Pexels-Lizenz</a> lizenziert. Kurz gesagt: Kostenlos zu verwenden und zu bearbeiten, keine Namensnennung rechtlich vorgeschrieben, aber Sie dürfen eine unveränderte Kopie eines Pexels-Fotos nicht als solches weiterverkaufen oder weiterverbreiten, nicht andeuten, dass auf einem Foto gezeigte Personen oder Marken Sie ohne deren Erlaubnis unterstützen, oder Pexels-Inhalte auf eine Weise nutzen, die mit Pexels konkurriert. Das generierte Mosaic — eine wesentliche Umwandlung, die viele solcher Kacheln kombiniert — gehört Ihnen zur Verwendung, aber die zugrundeliegenden Kachelfotos unterliegen weiterhin dieser Lizenz. Wir zeigen als Höflichkeit einen nicht verpflichtenden Fotografen-/Pexels-Hinweis neben auf diese Weise generierten Ergebnissen an."
+      },
+      {
+        "h2": "Kacheln aus einem Google Drive-Ordner"
+      },
+      {
+        "p": "Wenn Sie die Option „Aus Drive-Ordner“ verwenden, erklären Sie damit, dass Sie das Recht haben, jedes Bild in diesem Ordner auf diese Weise zu verwenden. Dies funktioniert nur für Ordner, die Sie als „Jeder, der über den Link verfügt“ freigegeben haben — durch die Nutzung dieser Funktion entscheiden Sie sich dafür, den Inhalt dieses Ordners für Mosaic zugänglich zu machen, und Sie sind verantwortlich für das, was Sie in einen Ordner legen, auf den Sie uns verweisen."
+      },
+      {
+        "h2": "Teilbare Links"
+      },
+      {
+        "p": "Das Generieren eines Mosaic erstellt niemals einen öffentlichen Link, es sei denn, Sie fordern ausdrücklich einen an. Wenn Sie dies tun, wird das fertige Mosaic-Bild auf unserem Server gespeichert und für jeden zugänglich gemacht, der diesen Link hat — behandeln Sie es wie das Teilen eines nicht gelisteten Fotos, nicht eines privaten. Links laufen automatisch 14 Tage nach dem letzten Aufruf des Mosaic ab. Fordern Sie keinen teilbaren Link für ein Mosaic an, das aus Inhalten erstellt wurde, für die Sie nicht das Recht haben, sie öffentlich zugänglich zu machen; die folgenden Nutzungsbeschränkungen gelten für geteilte Ergebnisse genauso wie für alles andere."
+      },
+      {
+        "h2": "Zulässige Nutzung"
+      },
+      {
+        "p": "Sie erklären sich damit einverstanden, Mosaic nicht zu verwenden, um Bilder hochzuladen, zu generieren oder zu generieren zu versuchen, die:"
+      },
+      {
+        "ul": [
+          "Material sexuellen Missbrauchs von Kindern oder sexuelle Inhalte mit Minderjährigen in jeglicher Form darstellen.",
+          "Das Urheberrecht, die Marke oder sonstige geistige Eigentumsrechte anderer verletzen.",
+          "Dazu verwendet werden, andere Personen zu belästigen, zu verleumden, zu bedrohen oder deren Privatsphäre zu verletzen.",
+          "Gegen geltendes Recht verstoßen."
+        ]
+      },
+      {
+        "p": "Sie erklären sich außerdem damit einverstanden, den Dienst oder dessen öffentliche API nicht zu missbrauchen – einschließlich des Versuchs, Ratenlimits, Upload-Limits oder andere technische Kontrollen zu umgehen, oder automatisierte Mittel zu verwenden, um den Dienst zu überlasten."
+      },
+      {
+        "h2": "Keine Garantie"
+      },
+      {
+        "p": "Mosaic wird „wie besehen“ und „wie verfügbar“ bereitgestellt, ohne ausdrückliche oder implizite Garantien jeglicher Art. Wir garantieren nicht, dass der Dienst ununterbrochen, fehlerfrei oder zu einer bestimmten Zeit verfügbar ist – dies ist ein kleines, selbst gehostetes, kostenloses Tool."
+      },
+      {
+        "h2": "Haftungsbeschränkung"
+      },
+      {
+        "p": "Im gesetzlich maximal zulässigen Umfang haftet Hackatoa nicht für indirekte, zufällige oder Folgeschäden, die sich aus Ihrer Nutzung oder der Unfähigkeit zur Nutzung von Mosaic ergeben."
+      },
+      {
+        "h2": "Änderungen und Verfügbarkeit"
+      },
+      {
+        "p": "Wir können Mosaic (oder Teile davon, einschließlich der öffentlichen API) jederzeit und ohne vorherige Ankündigung ändern, aussetzen oder einstellen, da es kostenlos als Hobby-/Homelab-Projekt angeboten wird."
+      },
+      {
+        "h2": "Geltendes Recht"
+      },
+      {
+        "p": "Diese Bedingungen unterliegen den Gesetzen des Bundesstaates Kalifornien unter Ausschluss der Kollisionsnormen."
+      },
+      {
+        "h2": "Kontakt"
+      },
+      {
+        "p": "Fragen zu diesen Bedingungen: <a href=\"mailto:jacobprestonharris@gmail.com\">jacobprestonharris@gmail.com</a>."
+      }
+    ]
+  }
+}
