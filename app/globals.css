@@ -103,14 +103,48 @@ a {
 }
 
 .lang-switcher {
+  position: relative;
   display: inline-flex;
-  gap: 0.5rem;
   align-items: center;
   padding-left: 0.5rem;
   border-left: 1px solid var(--border, rgba(255, 255, 255, 0.15));
 }
 
-.lang-switcher a {
+.lang-switcher .lang-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lang-switcher .lang-btn:hover {
+  color: var(--text);
+}
+
+.lang-switcher .lang-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: rgba(20, 20, 26, 0.97);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.15));
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  z-index: 50;
+}
+
+.lang-switcher .lang-pop a {
   color: var(--text-dim);
   text-decoration: none;
   font-size: 0.78rem;
@@ -118,11 +152,11 @@ a {
   letter-spacing: 0.02em;
 }
 
-.lang-switcher a:hover {
+.lang-switcher .lang-pop a:hover {
   color: var(--text);
 }
 
-.lang-switcher a.active {
+.lang-switcher .lang-pop a.active {
   color: var(--text);
   font-weight: 800;
 }
