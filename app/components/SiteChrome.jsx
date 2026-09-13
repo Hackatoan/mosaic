@@ -46,7 +46,8 @@ export function SiteFooter() {
         </span>
         <span>
           <a href={`${p}/privacy`}>{t("footer.privacy")}</a> ·{" "}
-          <a href={`${p}/terms`}>{t("footer.terms")}</a>
+          <a href={`${p}/terms`}>{t("footer.terms")}</a> ·{" "}
+          <a href="https://github.com/Hackatoan/mosaic/issues/new" target="_blank" rel="noreferrer">Report an issue</a>
         </span>
       </div>
     </footer>
