@@ -422,7 +422,16 @@ function Dropzone({ active, onDragStateChange, onFiles, inputRef, accept, multip
   return (
     <div
       className={`dropzone ${active ? "dragging" : ""}`}
+      role="button"
+      tabIndex={0}
+      aria-label={label}
       onClick={() => inputRef.current?.click()}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
+      }}
       onDragOver={(e) => {
         e.preventDefault();
         onDragStateChange(true);
@@ -441,6 +450,7 @@ function Dropzone({ active, onDragStateChange, onFiles, inputRef, accept, multip
         type="file"
         accept={accept}
         multiple={multiple}
+        tabIndex={-1}
         onChange={(e) => {
           onFiles(e.target.files);
           e.target.value = "";
