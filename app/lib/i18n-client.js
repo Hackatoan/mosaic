@@ -48,6 +48,9 @@ export function useT() {
   const [locale, setLocale] = useState("en");
   useEffect(() => {
     const l = resolveLocale(pathname);
+    // Deliberately deferred: SSR must render "en" first so hydration matches,
+    // then this swaps in the real locale post-mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocale(l);
     try { document.documentElement.lang = l; } catch { /* ignore */ }
     // Persist so the locale-less tool + shared pages inherit the chosen language.

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useT } from "../lib/i18n-client.js";
 
 // Client view for a shared mosaic (/m/<id>). The page is noindex UGC, so it's
@@ -19,9 +20,9 @@ export function SharedMosaicView({ imageUrl, days }) {
           <a className="secondary" href={imageUrl} download="mosaic.png">
             {t("shared.downloadPng")}
           </a>
-          <a className="secondary" href="/">
+          <Link className="secondary" href="/">
             {t("shared.makeYourOwn")}
-          </a>
+          </Link>
         </div>
       </section>
     </article>

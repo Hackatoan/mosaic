@@ -49,6 +49,8 @@ export default function MosaicApp() {
 
   useEffect(() => {
     if (!sourceFile) {
+      // Syncing with browser object-URL lifecycle (create/revoke), not a derivable render value.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSourcePreview(null);
       return;
     }
@@ -59,6 +61,8 @@ export default function MosaicApp() {
 
   useEffect(() => {
     const urls = tileFiles.slice(0, 24).map((f) => URL.createObjectURL(f));
+    // Syncing with browser object-URL lifecycle (create/revoke), not a derivable render value.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTilePreviews(urls);
     return () => urls.forEach((u) => URL.revokeObjectURL(u));
   }, [tileFiles]);
