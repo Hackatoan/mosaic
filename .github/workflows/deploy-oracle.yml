@@ -1,0 +1,166 @@
+name: Deploy to Oracle
+
+# Manually triggered (workflow_dispatch), not on every push — mosaic.hackatoa.com
+# still runs on the homelab via the existing GHCR+Watchtower path until this
+# has actually been run once and verified. See project memory for why Oracle
+# instead of Firebase: Next.js SSR + sharp + local-disk shareable links need a
+# real persistent server, and Cloud Run needs the Blaze-equivalent billing
+# plan Jacob doesn't want.
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up deploy key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.MOSAIC_ORACLE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.ORACLE_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Bootstrap the box (idempotent — safe to re-run)
+        run: |
+          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.ORACLE_HOST }} '
+            set -e
+            if ! command -v node >/dev/null; then
+              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+            sudo mkdir -p /opt/mosaic/data/results
+            sudo chown -R ubuntu:ubuntu /opt/mosaic
+          '
+
+      - name: Ship source and build on the box
+        run: |
+          tar czf /tmp/mosaic-src.tar.gz --exclude=node_modules --exclude=.next --exclude=.git .
+          scp -i ~/.ssh/deploy_key /tmp/mosaic-src.tar.gz ubuntu@${{ secrets.ORACLE_HOST }}:/opt/mosaic/src.tar.gz
+          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.ORACLE_HOST }} '
+            set -e
+            mkdir -p /opt/mosaic/app
+            tar xzf /opt/mosaic/src.tar.gz -C /opt/mosaic/app
+            rm /opt/mosaic/src.tar.gz
+            cd /opt/mosaic/app
+            npm ci
+            npm run build
+            # Next.js standalone output needs static assets + public copied in manually.
+            cp -r public .next/standalone/public
+            cp -r .next/static .next/standalone/.next/static
+          '
+
+      - name: Configure environment
+        run: |
+          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.ORACLE_HOST }} "cat > /opt/mosaic/app/.env" << 'EOF'
+          NODE_ENV=production
+          PORT=3000
+          NEXT_PUBLIC_SITE_URL=https://mosaic.hackatoa.com
+          MOSAIC_MAX_SOURCE_MB=10
+          MOSAIC_MAX_TILE_MB=5
+          MOSAIC_MAX_TILES=120
+          MOSAIC_MIN_TILES=3
+          MOSAIC_RATE_LIMIT_MAX=12
+          MOSAIC_RATE_LIMIT_WINDOW_MS=600000
+          MOSAIC_RESULTS_DIR=/opt/mosaic/data/results
+          MOSAIC_SHARE_RETENTION_DAYS=14
+          MOSAIC_MIN_FREE_DISK_MB=500
+          PEXELS_API_KEY=${{ secrets.PEXELS_API_KEY }}
+          EOF
+
+      - name: Install systemd service
+        run: |
+          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.ORACLE_HOST }} '
+            sudo tee /etc/systemd/system/mosaic.service > /dev/null << "UNIT"
+          [Unit]
+          Description=Mosaic photomosaic generator
+          After=network.target
+
+          [Service]
+          Type=simple
+          User=ubuntu
+          WorkingDirectory=/opt/mosaic/app/.next/standalone
+          EnvironmentFile=/opt/mosaic/app/.env
+          ExecStart=/usr/bin/node server.js
+          Restart=on-failure
+          RestartSec=3
+
+          [Install]
+          WantedBy=multi-user.target
+          UNIT
+            sudo systemctl daemon-reload
+            sudo systemctl enable mosaic
+            sudo systemctl restart mosaic
+            sleep 2
+            sudo systemctl status mosaic --no-pager
+            curl -sf http://localhost:3000/ -o /dev/null && echo "local check OK"
+          '
+
+      - name: Open firewall for the app port
+        run: |
+          ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.ORACLE_HOST }} '
+            sudo iptables -C INPUT -p tcp --dport 3000 -j ACCEPT 2>/dev/null || sudo iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
+            sudo netfilter-persistent save 2>/dev/null || sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
+          '
+
+      # Real functional check — not just "is the port open." Generates an
+      # actual 2x2 mosaic from two tiny synthetic PNGs and confirms the API
+      # returns a real image, so a broken sharp install / bad build / missing
+      # static assets can't slip through as a false "healthy." The DNS/NPMplus
+      # cutover below only runs if this succeeds — this is what makes it safe
+      # to fully automate an unattended cutover for code that's never been
+      # run against a real box before.
+      - name: Functional smoke test
+        run: |
+          python3 -c "
+          import base64
+          # 1x1 red and blue PNGs, valid enough for sharp to decode and resize.
+          red = base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==')
+          blue = base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==')
+          open('/tmp/src.png','wb').write(red)
+          open('/tmp/tile.png','wb').write(blue)
+          "
+          HTTP_CODE=$(curl -s -o /tmp/mosaic-result.bin -w "%{http_code}" \
+            -F "source=@/tmp/src.png" -F "tiles=@/tmp/tile.png" -F "cols=2" -F "rows=2" \
+            "http://${{ secrets.ORACLE_HOST }}:3000/api/generate")
+          SIZE=$(stat -c%s /tmp/mosaic-result.bin 2>/dev/null || echo 0)
+          echo "status=$HTTP_CODE size=$SIZE"
+          if [ "$HTTP_CODE" != "200" ] || [ "$SIZE" -lt 100 ]; then
+            echo "::error::Functional smoke test failed — app deployed but /api/generate isn't producing real output. NOT cutting over. Check mosaic.service logs on the box."
+            exit 1
+          fi
+          echo "Smoke test passed — real mosaic generated ($SIZE bytes)."
+
+      # Only reached if the smoke test above actually passed. Same pattern
+      # already proven live this session for clip-forge-api: add/update an
+      # NPMplus proxy host pointing at the new origin. DNS itself is
+      # unchanged (mosaic.hackatoa.com still resolves to the home WAN IP via
+      # Cloudflare, same as before) — NPMplus is what actually gets repointed,
+      # so this is instantly reversible by pointing the proxy host back.
+      - name: Cut over NPMplus to the new box
+        run: |
+          JAR=$(mktemp)
+          curl -sk -c "$JAR" -X POST "https://192.168.1.198:81/api/tokens" \
+            -H "Content-Type: application/json" \
+            -d '{"identity":"server@hackatoa.com","secret":"${{ secrets.NPM_PASS }}"}' > /dev/null
+          EXISTING_ID=$(curl -sk -b "$JAR" "https://192.168.1.198:81/api/nginx/proxy-hosts" | \
+            python3 -c "import json,sys; d=json.load(sys.stdin); m=[h for h in d if h['domain_names']==['mosaic.hackatoa.com']]; print(m[0]['id'] if m else '')")
+          if [ -z "$EXISTING_ID" ]; then
+            echo "::error::Could not find the existing mosaic.hackatoa.com NPMplus proxy host — not touching anything, investigate manually."
+            exit 1
+          fi
+          curl -sk -b "$JAR" -X PUT "https://192.168.1.198:81/api/nginx/proxy-hosts/$EXISTING_ID" \
+            -H "Content-Type: application/json" \
+            -d "{\"domain_names\":[\"mosaic.hackatoa.com\"],\"forward_host\":\"${{ secrets.ORACLE_HOST }}\",\"forward_port\":3000,\"access_list_id\":0,\"certificate_id\":23,\"ssl_forced\":true,\"caching_enabled\":false,\"block_exploits\":true,\"advanced_config\":\"\",\"allow_websocket_upgrade\":false,\"http2_support\":true,\"forward_scheme\":\"http\",\"enabled\":true,\"locations\":[],\"hsts_enabled\":false,\"hsts_subdomains\":false,\"trust_forwarded_proto\":false}"
+          sleep 2
+          FINAL_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://mosaic.hackatoa.com/)
+          echo "mosaic.hackatoa.com now: $FINAL_CODE"
+          if [ "$FINAL_CODE" != "200" ]; then
+            echo "::warning::Cutover applied but the live domain isn't returning 200 — check manually, the old homelab container is still running and the proxy host can be pointed back."
+          fi
+
+      # Deliberately NOT decommissioning the homelab mosaic container/proxy
+      # backup here — leave it as an instant rollback path (point the
+      # NPMplus proxy host back to 192.168.1.210:3012) until this has been
+      # observed working for a while. Clean it up in a later, deliberate step.
