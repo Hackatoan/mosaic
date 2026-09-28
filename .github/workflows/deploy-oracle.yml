@@ -122,7 +122,7 @@ jobs:
           open('/tmp/tile.png','wb').write(blue)
           "
           HTTP_CODE=$(curl -s -o /tmp/mosaic-result.bin -w "%{http_code}" \
-            -F "source=@/tmp/src.png" -F "tiles=@/tmp/tile.png" -F "cols=2" -F "rows=2" \
+            -F "source=@/tmp/src.png" -F "tiles=@/tmp/tile.png" -F "tiles=@/tmp/tile.png" -F "tiles=@/tmp/tile.png" -F "cols=5" \
             "http://${{ secrets.ORACLE_HOST }}:3000/api/generate")
           SIZE=$(stat -c%s /tmp/mosaic-result.bin 2>/dev/null || echo 0)
           echo "status=$HTTP_CODE size=$SIZE"
