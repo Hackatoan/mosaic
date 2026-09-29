@@ -26,5 +26,8 @@ services:
       # that tile-source mode — upload-your-own-tiles always works.
       - PEXELS_API_KEY=${PEXELS_API_KEY:-}
       - GOOGLE_DRIVE_API_KEY=${GOOGLE_DRIVE_API_KEY:-}
+      # Optional — see .env.example. Only actually closes anything once
+      # NPMplus is also configured to inject the matching header.
+      - MOSAIC_PROXY_SECRET=${MOSAIC_PROXY_SECRET:-}
     labels:
       - "com.centurylinklabs.watchtower.enable=true"

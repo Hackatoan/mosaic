@@ -8,6 +8,7 @@ import {
   tryAcquireJobSlot,
   releaseJobSlot,
   clientIp,
+  isFromTrustedProxy,
 } from "../../../lib/rateLimit.js";
 
 // sharp needs the Node runtime, not edge.
@@ -64,6 +65,13 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  // When MOSAIC_PROXY_SECRET is set, reject anything that didn't come
+  // through NPMplus rather than trust a client-supplied X-Forwarded-For
+  // from a request that hit this port directly (see config.js).
+  if (!isFromTrustedProxy(request)) {
+    return json({ error: "Not found." }, { status: 404 });
+  }
+
   const ip = clientIp(request);
 
   const { allowed, retryAfterMs } = checkRateLimit(ip);
