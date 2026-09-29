@@ -9,30 +9,39 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import en from "../dictionaries/en.json";
-import es from "../dictionaries/es.json";
-import ptbr from "../dictionaries/pt-br.json";
-import fr from "../dictionaries/fr.json";
-import de from "../dictionaries/de.json";
-import vi from "../dictionaries/vi.json";
-import th from "../dictionaries/th.json";
 
-const DICTS = { en, es, "pt-br": ptbr, fr, de, vi, th };
-export const LOCALES = Object.keys(DICTS);
+// English ships in the main client bundle (it's the SSR/fallback dictionary,
+// needed synchronously). The other six are only ever needed for the one
+// locale a given visitor resolves to, so they're loaded on demand instead of
+// bundled into every visitor's initial JS payload — same lazy-per-locale
+// approach the server side already uses in ../get-dictionary.js.
+const loaders = {
+  en: () => Promise.resolve(en),
+  es: () => import("../dictionaries/es.json").then((m) => m.default),
+  "pt-br": () => import("../dictionaries/pt-br.json").then((m) => m.default),
+  fr: () => import("../dictionaries/fr.json").then((m) => m.default),
+  de: () => import("../dictionaries/de.json").then((m) => m.default),
+  vi: () => import("../dictionaries/vi.json").then((m) => m.default),
+  th: () => import("../dictionaries/th.json").then((m) => m.default),
+};
+
+export const LOCALES = Object.keys(loaders);
+const LOCALE_SET = new Set(LOCALES);
 
 export function resolveLocale(pathname) {
   // The /<locale> URL prefix wins on the SSR-localized routes (/es, /es/privacy…).
   if (pathname) {
     const seg = pathname.split("/")[1];
-    if (DICTS[seg] && seg !== "en") return seg;
+    if (LOCALE_SET.has(seg) && seg !== "en") return seg;
   }
   if (typeof window === "undefined") return "en";
   let l = "";
   try { l = localStorage.getItem("hk_lang") || ""; } catch { /* ignore */ }
-  if (DICTS[l]) return l;
+  if (LOCALE_SET.has(l)) return l;
   const nav = (navigator.language || "en").toLowerCase();
   if (nav.startsWith("pt")) return "pt-br";
   const two = nav.slice(0, 2);
-  return DICTS[two] ? two : "en";
+  return LOCALE_SET.has(two) ? two : "en";
 }
 
 function lookup(dict, path) {
@@ -46,6 +55,7 @@ function lookup(dict, path) {
 export function useT() {
   const pathname = usePathname();
   const [locale, setLocale] = useState("en");
+  const [dict, setDict] = useState(en);
   useEffect(() => {
     const l = resolveLocale(pathname);
     // Deliberately deferred: SSR must render "en" first so hydration matches,
@@ -55,8 +65,12 @@ export function useT() {
     try { document.documentElement.lang = l; } catch { /* ignore */ }
     // Persist so the locale-less tool + shared pages inherit the chosen language.
     try { localStorage.setItem("hk_lang", l); } catch { /* ignore */ }
+    let cancelled = false;
+    (loaders[l] || loaders.en)().then((d) => {
+      if (!cancelled) setDict(d);
+    });
+    return () => { cancelled = true; };
   }, [pathname]);
-  const dict = DICTS[locale] || en;
   const t = (path, params) => {
     let s = lookup(dict, path) ?? lookup(en, path) ?? path;
     if (params) for (const k in params) s = s.split("{" + k + "}").join(String(params[k]));
