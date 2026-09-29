@@ -67,6 +67,7 @@ jobs:
           MOSAIC_SHARE_RETENTION_DAYS=14
           MOSAIC_MIN_FREE_DISK_MB=500
           PEXELS_API_KEY=${{ secrets.PEXELS_API_KEY }}
+          MOSAIC_PROXY_SECRET=${{ secrets.MOSAIC_PROXY_SECRET }}
           EOF
 
       - name: Install systemd service
@@ -97,6 +98,17 @@ jobs:
             curl -sf http://localhost:3000/ -o /dev/null && echo "local check OK"
           '
 
+      # NOTE: this opens tcp/3000 to the whole internet, not just NPMplus —
+      # OCI-cloud-box reachability is different from the old homelab
+      # container, which NPMplus could reach over the LAN with the port
+      # otherwise unreachable from outside. Direct access here bypasses both
+      # NPMplus's TLS/WAF (block_exploits) and the last-hop X-Forwarded-For
+      # trust that lib/rateLimit.js relies on (a direct caller can forge any
+      # XFF value it likes). Set the MOSAIC_PROXY_SECRET repo secret and add
+      # a matching X-Mosaic-Proxy-Secret header in NPMplus's proxy host ->
+      # Advanced config to close that gap (see lib/config.js); narrowing this
+      # rule to NPMplus's actual source IP would be the other half but that
+      # IP isn't stable/known from here.
       - name: Open firewall for the app port
         run: |
           ssh -i ~/.ssh/deploy_key ubuntu@${{ secrets.ORACLE_HOST }} '
