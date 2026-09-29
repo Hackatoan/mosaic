@@ -361,10 +361,21 @@ export default function MosaicApp() {
       </section>
 
       <div className="actions">
-        <button className="primary" disabled={!canGenerate} onClick={handleGenerate}>
+        <button
+          className="primary"
+          disabled={!canGenerate}
+          aria-busy={status.state === "working"}
+          onClick={handleGenerate}
+        >
           {status.state === "working" ? t("app.generating") : t("app.generate")}
         </button>
-        <span className={`status ${status.state === "error" ? "error" : ""}`}>{status.message}</span>
+        <span
+          className={`status ${status.state === "error" ? "error" : ""}`}
+          role="status"
+          aria-live="polite"
+        >
+          {status.message}
+        </span>
       </div>
 
       {result && (
