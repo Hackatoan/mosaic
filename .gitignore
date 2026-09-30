@@ -38,3 +38,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# next dev auto-regenerates this on every run; not meant to be committed
+AGENTS.md
