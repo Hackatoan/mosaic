@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 import { config } from "../lib/config.js";
 import { SiteHeader, SiteFooter } from "./components/SiteChrome.jsx";
 import { languageAlternates } from "./get-dictionary.js";
@@ -49,6 +50,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Script src="https://hackatoa.com/cookie-notice.js" strategy="afterInteractive" data-mode="essential" data-policy="https://hackatoa.com/cookies/" data-privacy="https://hackatoa.com/privacy/" />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
