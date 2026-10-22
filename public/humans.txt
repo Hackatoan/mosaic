@@ -1,0 +1,10 @@
+/* TEAM */
+Maker: Hackatoa
+Site: https://hackatoa.com
+
+/* THANKS */
+Pexels for the tile photos; sharp for doing the heavy lifting.
+
+/* SITE */
+Stack: Next.js, sharp
+# ▲ SHARD 11 :: ETRPSU

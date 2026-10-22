@@ -1,0 +1,35 @@
+name: Deploy (Oracle, live)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency: deploy-oracle-live
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with: {node-version: 20, cache: npm}
+      - run: npm ci
+      - run: npm run build
+      - name: Package standalone build
+        run: |
+          # Next standalone convention: static assets + public are copied in by hand.
+          cp -r public .next/standalone/public
+          mkdir -p .next/standalone/.next && cp -r .next/static .next/standalone/.next/static
+          tar czf /tmp/mosaic.tgz -C .next/standalone .
+      - name: Ship + restart (auto-rollback on failed health check)
+        env:
+          KEY: ${{ secrets.MOSAIC_DEPLOY_KEY }}
+          HOST: ${{ secrets.MOSAIC_DEPLOY_HOST }}
+        run: |
+          install -m 600 /dev/null key && printf '%s\n' "$KEY" > key
+          ssh -i key -o StrictHostKeyChecking=accept-new deploy@$HOST 'sudo /usr/local/bin/deploy-mosaic' < /tmp/mosaic.tgz
+      - name: Live check
+        run: |
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' https://mosaic.hackatoa.com/) && [ "$code" = 200 ] && echo "live: $code" && exit 0
+            sleep 5
+          done
+          echo "::error::mosaic.hackatoa.com not returning 200 after deploy"; exit 1
