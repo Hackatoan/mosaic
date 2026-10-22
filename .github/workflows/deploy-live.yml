@@ -16,7 +16,7 @@ jobs:
       - name: Package standalone build
         run: |
           # Next standalone convention: static assets + public are copied in by hand.
-          cp -r public .next/standalone/public
+          mkdir -p .next/standalone/public && cp -r public/. .next/standalone/public/
           mkdir -p .next/standalone/.next && cp -r .next/static .next/standalone/.next/static
           tar czf /tmp/mosaic.tgz -C .next/standalone .
       - name: Ship + restart (auto-rollback on failed health check)
