@@ -26,10 +26,10 @@ jobs:
         run: |
           install -m 600 /dev/null key && printf '%s\n' "$KEY" > key
           ssh -i key -o StrictHostKeyChecking=accept-new deploy@$HOST 'sudo /usr/local/bin/deploy-mosaic' < /tmp/mosaic.tgz
-      - name: Live check
+      - name: Origin check (Cloudflare challenges CI runners, so hit the origin directly)
         run: |
           for i in 1 2 3 4 5 6; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' https://mosaic.hackatoa.com/) && [ "$code" = 200 ] && echo "live: $code" && exit 0
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://${{ secrets.MOSAIC_DEPLOY_HOST }}:3000/) && [ "$code" = 200 ] && echo "live: $code" && exit 0
             sleep 5
           done
-          echo "::error::mosaic.hackatoa.com not returning 200 after deploy"; exit 1
+          echo "::error::origin not returning 200 after deploy"; exit 1
