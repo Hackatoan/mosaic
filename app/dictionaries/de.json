@@ -24,6 +24,7 @@
     "s1Title": "1. Quellfoto",
     "sourceDrop": "Ziehe ein Foto hierher oder klicke, um eines auszuwählen",
     "sourceUpTo": "Bis zu {mb} MB.",
+    "sourcePaste": "Du kannst auch ein Bild einfügen (Strg+V / ⌘V).",
     "sourcePreviewAlt": "Quellvorschau",
     "s2Title": "2. Kachelbilder",
     "modeUpload": "Eigene Bilder hochladen",

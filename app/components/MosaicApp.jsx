@@ -83,6 +83,20 @@ export default function MosaicApp() {
     if (file && file.type.startsWith("image/")) setSourceFile(file);
   }, []);
 
+  // Paste an image from the clipboard (Ctrl+V / ⌘V) anywhere on the page to use
+  // it as the source photo. Only intercepts pastes that actually carry an image
+  // file, so pasting text into the topic / Drive-link inputs is unaffected.
+  useEffect(() => {
+    function onPaste(e) {
+      const files = Array.from(e.clipboardData?.files || []).filter((f) => f.type.startsWith("image/"));
+      if (files.length === 0) return;
+      e.preventDefault();
+      handleSourcePick(files);
+    }
+    window.addEventListener("paste", onPaste);
+    return () => window.removeEventListener("paste", onPaste);
+  }, [handleSourcePick]);
+
   const handleTilesPick = useCallback((files) => {
     const imgs = Array.from(files || []).filter((f) => f.type.startsWith("image/"));
     setTileFiles((prev) => [...prev, ...imgs]);
@@ -181,7 +195,9 @@ export default function MosaicApp() {
           accept="image/*"
           multiple={false}
           label={sourceFile ? sourceFile.name : t("app.sourceDrop")}
-          hint={apiInfo ? t("app.sourceUpTo", { mb: apiInfo.limits.maxSourceMB }) : ""}
+          hint={[apiInfo ? t("app.sourceUpTo", { mb: apiInfo.limits.maxSourceMB }) : "", t("app.sourcePaste")]
+            .filter(Boolean)
+            .join(" ")}
         />
         {sourcePreview && (
           <div className="source-preview-wrap">

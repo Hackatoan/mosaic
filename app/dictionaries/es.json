@@ -24,6 +24,7 @@
     "s1Title": "1. Foto de origen",
     "sourceDrop": "Suelta una foto aquí o haz clic para elegir una",
     "sourceUpTo": "Hasta {mb}MB.",
+    "sourcePaste": "También puedes pegar una imagen (Ctrl+V / ⌘V).",
     "sourcePreviewAlt": "Vista previa de origen",
     "s2Title": "2. Imágenes de mosaico",
     "modeUpload": "Subir las mías",
