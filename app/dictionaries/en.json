@@ -24,6 +24,7 @@
     "s1Title": "1. Source photo",
     "sourceDrop": "Drop a photo here, or click to choose one",
     "sourceUpTo": "Up to {mb}MB.",
+    "sourcePaste": "You can also paste an image (Ctrl+V / ⌘V).",
     "sourcePreviewAlt": "Source preview",
     "s2Title": "2. Tile images",
     "modeUpload": "Upload my own",

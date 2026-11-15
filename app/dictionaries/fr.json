@@ -24,6 +24,7 @@
     "s1Title": "1. Photo source",
     "sourceDrop": "Déposez une photo ici ou cliquez pour en choisir une",
     "sourceUpTo": "Jusqu'à {mb} Mo.",
+    "sourcePaste": "Vous pouvez aussi coller une image (Ctrl+V / ⌘V).",
     "sourcePreviewAlt": "Aperçu de la source",
     "s2Title": "2. Images de tuiles",
     "modeUpload": "Télécharger les miennes",

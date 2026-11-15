@@ -24,6 +24,7 @@
     "s1Title": "1. Foto de origem",
     "sourceDrop": "Arraste uma foto aqui ou clique para escolher uma",
     "sourceUpTo": "Até {mb}MB.",
+    "sourcePaste": "Você também pode colar uma imagem (Ctrl+V / ⌘V).",
     "sourcePreviewAlt": "Pré-visualização da origem",
     "s2Title": "2. Imagens de ladrilhos",
     "modeUpload": "Carregar minhas próprias",

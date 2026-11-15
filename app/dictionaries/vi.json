@@ -24,6 +24,7 @@
     "s1Title": "1. Ảnh gốc",
     "sourceDrop": "Thả ảnh vào đây hoặc nhấp để chọn một ảnh",
     "sourceUpTo": "Lên đến {mb}MB.",
+    "sourcePaste": "Bạn cũng có thể dán ảnh (Ctrl+V / ⌘V).",
     "sourcePreviewAlt": "Xem trước nguồn",
     "s2Title": "2. Ảnh ô",
     "modeUpload": "Tải ảnh của tôi lên",
