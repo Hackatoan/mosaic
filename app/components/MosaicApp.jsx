@@ -6,6 +6,9 @@ import { localizeLinks } from "../lib/localize-links.js";
 
 const DEFAULT_COLS = 40;
 const DEFAULT_TILE_SIZE = 24;
+// Grid settings + tile source are remembered in this browser only (never sent
+// anywhere). The share opt-in is deliberately NOT remembered.
+const SETTINGS_KEY = "mosaic:settings:v1";
 
 export default function MosaicApp() {
   const { t, locale } = useT();
@@ -34,6 +37,27 @@ export default function MosaicApp() {
 
   const sourceInputRef = useRef(null);
   const tilesInputRef = useRef(null);
+  const settingsLoaded = useRef(false);
+
+  // Restore last-used settings after mount (not in useState initializers, so the
+  // server-rendered HTML and first client render still match).
+  useEffect(() => {
+    const saved = loadSettings();
+    settingsLoaded.current = true;
+    if (!saved) return;
+    // One-time restore from browser storage (external system) after hydration.
+    /* eslint-disable react-hooks/set-state-in-effect */
+    if (saved.cols != null) setCols(saved.cols);
+    if (saved.tileSize != null) setTileSize(saved.tileSize);
+    if (saved.tileMode) setTileMode(saved.tileMode);
+    if (saved.topic != null) setTopic(saved.topic);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+
+  useEffect(() => {
+    if (!settingsLoaded.current) return;
+    saveSettings({ cols, tileSize, tileMode, topic });
+  }, [cols, tileSize, tileMode, topic]);
 
   useEffect(() => {
     fetch("/api/generate")
@@ -75,6 +99,8 @@ export default function MosaicApp() {
 
   const pexelsAvailable = apiInfo?.pexelsAvailable ?? true; // assume yes until we know otherwise
   const driveAvailable = apiInfo?.driveAvailable ?? true;
+  const activeTileMode =
+    (tileMode === "topic" && !pexelsAvailable) || (tileMode === "drive" && !driveAvailable) ? "upload" : tileMode;
   const minTiles = apiInfo?.fields?.tiles ? extractMin(apiInfo.fields.tiles) : 3;
   const maxTiles = apiInfo?.fields?.tiles ? extractMax(apiInfo.fields.tiles) : 120;
 
@@ -105,9 +131,9 @@ export default function MosaicApp() {
   const clearTiles = () => setTileFiles([]);
 
   const tilesReady =
-    tileMode === "upload"
+    activeTileMode === "upload"
       ? tileFiles.length >= minTiles
-      : tileMode === "topic"
+      : activeTileMode === "topic"
         ? topic.trim().length > 0
         : driveFolder.trim().length > 0;
   const canGenerate = sourceFile && tilesReady && status.state !== "working";
@@ -124,9 +150,9 @@ export default function MosaicApp() {
       form.set("cols", String(cols));
       form.set("tileSize", String(tileSize));
       if (wantsShare) form.set("share", "true");
-      if (tileMode === "upload") {
+      if (activeTileMode === "upload") {
         tileFiles.forEach((f) => form.append("tiles", f));
-      } else if (tileMode === "topic") {
+      } else if (activeTileMode === "topic") {
         form.set("topic", topic.trim());
         form.set("tileCount", String(tileCount));
       } else {
@@ -211,14 +237,14 @@ export default function MosaicApp() {
         <div className="mode-toggle" role="tablist">
           <button
             type="button"
-            className={`mode-btn ${tileMode === "upload" ? "active" : ""}`}
+            className={`mode-btn ${activeTileMode === "upload" ? "active" : ""}`}
             onClick={() => setTileMode("upload")}
           >
             {t("app.modeUpload")}
           </button>
           <button
             type="button"
-            className={`mode-btn ${tileMode === "topic" ? "active" : ""}`}
+            className={`mode-btn ${activeTileMode === "topic" ? "active" : ""}`}
             onClick={() => setTileMode("topic")}
             disabled={!pexelsAvailable}
             title={!pexelsAvailable ? t("app.topicDisabledTitle") : undefined}
@@ -227,7 +253,7 @@ export default function MosaicApp() {
           </button>
           <button
             type="button"
-            className={`mode-btn ${tileMode === "drive" ? "active" : ""}`}
+            className={`mode-btn ${activeTileMode === "drive" ? "active" : ""}`}
             onClick={() => setTileMode("drive")}
             disabled={!driveAvailable}
             title={!driveAvailable ? t("app.driveDisabledTitle") : undefined}
@@ -236,7 +262,7 @@ export default function MosaicApp() {
           </button>
         </div>
 
-        {tileMode === "upload" && (
+        {activeTileMode === "upload" && (
           <>
             <Dropzone
               active={dragging === "tiles"}
@@ -273,7 +299,7 @@ export default function MosaicApp() {
           </>
         )}
 
-        {tileMode === "topic" && (
+        {activeTileMode === "topic" && (
           <div className="topic-fields">
             <div className="field">
               <label htmlFor="topic-input">
@@ -306,7 +332,7 @@ export default function MosaicApp() {
           </div>
         )}
 
-        {tileMode === "drive" && (
+        {activeTileMode === "drive" && (
           <div className="topic-fields">
             <div className="field">
               <label htmlFor="drive-input">
@@ -489,4 +515,35 @@ function Dropzone({ active, onDragStateChange, onFiles, inputRef, accept, multip
       />
     </div>
   );
+}
+
+const TILE_MODES = ["upload", "topic", "drive"];
+const clampInt = (v, min, max) => (Number.isFinite(v) ? Math.min(max, Math.max(min, Math.round(v))) : null);
+
+// Reads remembered settings, validating every field so a stale or hand-edited
+// value can never put the form into an impossible state. Storage can throw
+// (private mode, blocked cookies) — then we just start from defaults.
+function loadSettings() {
+  try {
+    const raw = window.localStorage.getItem(SETTINGS_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (!s || typeof s !== "object") return null;
+    return {
+      cols: clampInt(s.cols, 5, 150),
+      tileSize: clampInt(s.tileSize, 6, 64),
+      tileMode: TILE_MODES.includes(s.tileMode) ? s.tileMode : null,
+      topic: typeof s.topic === "string" ? s.topic.slice(0, 80) : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function saveSettings(settings) {
+  try {
+    window.localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  } catch {
+    // storage unavailable/full — remembering settings is best-effort
+  }
 }
