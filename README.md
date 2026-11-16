@@ -13,6 +13,7 @@ Upload a source image and Mosaic reconstructs it from a grid of tile images matc
 - Tiles from uploads, Pexels topic search, or a Drive folder
 - Average-color tile matching
 - Paste a source photo straight from the clipboard (Ctrl+V / ⌘V)
+- Remembers your grid settings and tile source in this browser between visits
 - Opt-in shareable result links
 - 6-language localization
 
