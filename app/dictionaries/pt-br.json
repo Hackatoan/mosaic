@@ -58,6 +58,8 @@
     "resultAlt": "Fotomosaico gerado",
     "resultMeta": "{cols}×{rows} blocos a {size}px",
     "downloadPng": "Baixar PNG",
+    "copyImage": "Copiar imagem",
+    "copyImageFailed": "Falha ao copiar",
     "copyLink": "Copiar link",
     "copied": "Copiado!",
     "apiHint": "Prefere chamar diretamente? <code>POST /api/generate</code> como <code>multipart/form-data</code> com <code>source</code>, mais um de <code>tiles</code> (campo de arquivo repetido), <code>topic</code> ou <code>driveFolder</code>, e opcionalmente <code>share=true</code> — veja <a href=\"/api/generate\">GET /api/generate</a> para a especificação completa."

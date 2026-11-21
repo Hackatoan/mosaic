@@ -14,6 +14,7 @@ Upload a source image and Mosaic reconstructs it from a grid of tile images matc
 - Average-color tile matching
 - Paste a source photo straight from the clipboard (Ctrl+V / ⌘V)
 - Remembers your grid settings and tile source in this browser between visits
+- Copy the finished mosaic straight to the clipboard, or download it as a PNG
 - Opt-in shareable result links
 - 6-language localization
 

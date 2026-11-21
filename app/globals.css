@@ -511,3 +511,9 @@ button.secondary {
 .policy ul {
   padding-left: 1.2rem;
 }
+
+.result-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
