@@ -58,6 +58,8 @@
     "resultAlt": "Photomosaïque générée",
     "resultMeta": "{cols}×{rows} tuiles à {size}px",
     "downloadPng": "Télécharger le PNG",
+    "copyImage": "Copier l’image",
+    "copyImageFailed": "Échec de la copie",
     "copyLink": "Copier le lien",
     "copied": "Copié !",
     "apiHint": "Vous préférez l'appeler directement ? <code>POST /api/generate</code> en tant que <code>multipart/form-data</code> avec <code>source</code>, ainsi qu'un des champs <code>tiles</code> (champ de fichier répété), <code>topic</code> ou <code>driveFolder</code>, et éventuellement <code>share=true</code> — consultez <a href=\"/api/generate\">GET /api/generate</a> pour la spécification complète."

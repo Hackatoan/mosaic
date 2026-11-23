@@ -34,6 +34,7 @@ export default function MosaicApp() {
   const [status, setStatus] = useState({ state: "idle", message: "" }); // idle | working | error | done
   const [result, setResult] = useState(null); // { url, cols, rows, tileSize, credit, shareUrl, shareError }
   const [copied, setCopied] = useState(false);
+  const [imageCopy, setImageCopy] = useState("idle"); // idle | copied | failed
 
   const sourceInputRef = useRef(null);
   const tilesInputRef = useRef(null);
@@ -143,6 +144,7 @@ export default function MosaicApp() {
     setStatus({ state: "working", message: t("app.working") });
     setResult(null);
     setCopied(false);
+    setImageCopy("idle");
 
     try {
       const form = new FormData();
@@ -185,6 +187,7 @@ export default function MosaicApp() {
       const shareError = rawShareError ? decodeURIComponent(rawShareError) : null;
       setResult({
         url,
+        blob,
         cols: gc,
         rows: gr,
         tileSize: res.headers.get("X-Mosaic-Tile-Size"),
@@ -204,6 +207,21 @@ export default function MosaicApp() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  }
+
+  // Copy the finished mosaic straight to the clipboard as a PNG, so it can be
+  // pasted into a chat/doc without saving a file first. The blob is already in
+  // memory, so ClipboardItem gets it synchronously (Safari requires the write to
+  // start inside the click handler).
+  const canCopyImage =
+    typeof window !== "undefined" && !!navigator.clipboard?.write && typeof window.ClipboardItem === "function";
+  function copyImage() {
+    if (!result?.blob || !canCopyImage) return;
+    navigator.clipboard
+      .write([new window.ClipboardItem({ "image/png": result.blob })])
+      .then(() => setImageCopy("copied"))
+      .catch(() => setImageCopy("failed"))
+      .finally(() => setTimeout(() => setImageCopy("idle"), 2000));
   }
 
   return (
@@ -430,9 +448,20 @@ export default function MosaicApp() {
             <span className="status">
               {t("app.resultMeta", { cols: result.cols, rows: result.rows, size: result.tileSize })}
             </span>
-            <a className="secondary" href={result.url} download="mosaic.png">
-              {t("app.downloadPng")}
-            </a>
+            <div className="result-buttons">
+              {canCopyImage && (
+                <button type="button" className="secondary" onClick={copyImage}>
+                  {imageCopy === "copied"
+                    ? t("app.copied")
+                    : imageCopy === "failed"
+                      ? t("app.copyImageFailed")
+                      : t("app.copyImage")}
+                </button>
+              )}
+              <a className="secondary" href={result.url} download="mosaic.png">
+                {t("app.downloadPng")}
+              </a>
+            </div>
           </div>
           {result.credit && <p className="api-hint">{result.credit}</p>}
           {result.shareUrl && (

@@ -58,6 +58,8 @@
     "resultAlt": "ภาพโฟโตโมเสกที่สร้างขึ้น",
     "resultMeta": "{cols}×{rows} ไทล์ ที่ขนาด {size}px",
     "downloadPng": "ดาวน์โหลด PNG",
+    "copyImage": "คัดลอกรูปภาพ",
+    "copyImageFailed": "คัดลอกไม่สำเร็จ",
     "copyLink": "คัดลอกลิงก์",
     "copied": "คัดลอกแล้ว!",
     "apiHint": "ต้องการเรียกใช้งานโดยตรงใช่ไหม? ใช้ <code>POST /api/generate</code> แบบ <code>multipart/form-data</code> พร้อมกับ <code>source</code>, และเลือกอย่างใดอย่างหนึ่งระหว่าง <code>tiles</code> (ฟิลด์ไฟล์ซ้ำ), <code>topic</code> หรือ <code>driveFolder</code> และเลือกใส่ <code>share=true</code> ได้ — ดู <a href=\"/api/generate\">GET /api/generate</a> สำหรับรายละเอียดทั้งหมด"

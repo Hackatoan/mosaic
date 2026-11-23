@@ -58,6 +58,8 @@
     "resultAlt": "Bức tranh khảm ảnh đã tạo",
     "resultMeta": "{cols}×{rows} ô ở kích thước {size}px",
     "downloadPng": "Tải xuống PNG",
+    "copyImage": "Sao chép ảnh",
+    "copyImageFailed": "Sao chép thất bại",
     "copyLink": "Sao chép liên kết",
     "copied": "Đã sao chép!",
     "apiHint": "Bạn muốn gọi trực tiếp? Sử dụng <code>POST /api/generate</code> dưới dạng <code>multipart/form-data</code> với <code>source</code>, kèm theo một trong số <code>tiles</code> (trường tệp lặp lại), <code>topic</code> hoặc <code>driveFolder</code>, và tùy chọn <code>share=true</code> — hãy xem <a href=\"/api/generate\">GET /api/generate</a> để biết thông số kỹ thuật đầy đủ."
